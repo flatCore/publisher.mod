@@ -14,6 +14,8 @@ $post_data = pub_get_post_data($get_post);
 $post_images = explode("<->", $post_data['images']);
 $post_type = $post_data['type'];
 $post_releasedate = date('Y-m-d H:i',$post_data['releasedate']);
+$post_lastedit = date('Y-m-d H:i',$post_data['lastedit']);
+$post_lastedit_from = $post_data['lastedit_from'];
 
 /* event dates */
 
@@ -101,8 +103,11 @@ $post_tpl = str_replace("{post_author}", $post_data['author'], $tpl);
 $post_tpl = str_replace("{post_title}", $post_data['title'], $post_tpl);
 $post_tpl = str_replace("{post_teaser}", $post_data['teaser'], $post_tpl);
 $post_tpl = str_replace("{post_text}", $post_data['text'], $post_tpl);
+$post_tpl = str_replace("{post_type}", $post_data['type'], $post_tpl);
 $post_tpl = str_replace("{post_img_src}", $first_post_image, $post_tpl);
 $post_tpl = str_replace("{post_releasedate}", $post_releasedate, $post_tpl);
+$post_tpl = str_replace("{post_lastedit}", $post_lastedit, $post_tpl);
+$post_tpl = str_replace("{post_lastedit_from}", $post_lastedit_from, $post_tpl);
 $post_tpl = str_replace("{event_start_day}", $event_start_day, $post_tpl);
 $post_tpl = str_replace("{event_start_month}", $event_start_month, $post_tpl);
 $post_tpl = str_replace("{event_start_month_text}", $event_start_month_text, $post_tpl);

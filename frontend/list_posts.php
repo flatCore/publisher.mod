@@ -216,6 +216,7 @@ for($i=0;$i<$cnt_get_posts;$i++) {
 	
 	$post_tpl = str_replace("{post_title}", $get_posts[$i]['title'], $get_tpl);
 	$post_tpl = str_replace("{post_teaser}", $get_posts[$i]['teaser'], $post_tpl);
+	$post_tpl = str_replace("{post_type}", $get_posts[$i]['type'], $post_tpl);
 	$post_tpl = str_replace("{post_img_src}", $first_post_image, $post_tpl);
 	$post_tpl = str_replace("{video_id}", $video['v'], $post_tpl);
 	$post_tpl = str_replace("{post_releasedate}", $post_releasedate, $post_tpl);
@@ -234,6 +235,7 @@ for($i=0;$i<$cnt_get_posts;$i++) {
 	$post_tpl = str_replace("{post_price_gross}", $post_price_gross, $post_tpl);
 	$post_tpl = str_replace("{post_currency}", $get_posts[$i]['product_currency'], $post_tpl);
 	$post_tpl = str_replace("{post_product_unit}", $get_posts[$i]['product_unit'], $post_tpl);
+	
 	
 	$post_list .= $post_tpl;
 	

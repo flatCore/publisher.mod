@@ -64,3 +64,13 @@ a.post-headline-link:hover {
     font-size: 11px;
     opacity: .5;
 }
+
+.post-type-message,
+.post-type-event,
+.post-type-link,
+.post-type-video,
+.post-type-image,
+.post-type-product {
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 15px;
+}
