@@ -248,8 +248,14 @@ echo'</form>';
 
 echo '<hr class="shadow">';
 
+
+
+/**
+ * IMPORTING
+ */
+
 echo '<fieldset>';
-echo '<legend>Import</legend>';
+echo '<legend>Import flatNews.mod</legend>';
 $fn_db = '../content/SQLite/flatNews.sqlite3';
 if(is_file($fn_db)) {
 	
@@ -408,7 +414,7 @@ if(is_file($fn_db)) {
 	
 	
 	
-	echo '<p>'.$pub_lang['msg_import'].'</p>';
+	echo '<p>'.$pub_lang['msg_import_fn'].'</p>';
 	echo '<form action="acp.php?tn=moduls&sub=publisher.mod&a=prefs" method="POST">';
 	echo '<button type="submit" name="import_fn_entries" value="import" class="btn btn-primary">'.$pub_lang['btn_start_import_entries'].'</button> ';
 	echo '<button type="submit" name="import_fn_categories" value="import" class="btn btn-primary">'.$pub_lang['btn_start_import_categories'].'</button> ';
@@ -416,6 +422,124 @@ if(is_file($fn_db)) {
 	echo '</form>';
 }
 
+echo '</fieldset>';
+
+echo '<fieldset id="importcals">';
+echo '<legend>Import flatCal.mod</legend>';
+$fc_db = '../content/SQLite/flatCal.sqlite3';
+if(is_file($fc_db)) {
+	
+	if($_POST['import_fc_categories'] == 'import') {
+		/* start import categories */
+		
+		$dbh = new PDO("sqlite:$fc_db");
+		$sql = "SELECT * FROM fc_calscats ORDER BY cat_id ASC";
+		$sth = $dbh->prepare($sql);
+		$sth->execute();
+		$entries = $sth->fetchAll();
+		$dbh = null;
+
+		$cnt_entries = count($entries);
+		
+		echo '<p class="alert alert-info">start importing '.$cnt_entries.' entries from category table</p>';		
+		
+		
+		$dbh = new PDO("sqlite:$mod_db");
+		
+		$sql_insert = "INSERT INTO categories (
+			id, name, name_safe, description
+				) VALUES (
+			NULL, :name, :name_safe, :description	)";	
+		
+		
+		
+		for($i=0;$i<$cnt_entries;$i++) {
+			
+			$name_safe = clean_filename($entries[$i]['cat_name']);
+			
+			$sth = $dbh->prepare($sql_insert);
+			$sth->bindParam(':name', $entries[$i]['cat_name'], PDO::PARAM_STR);
+			$sth->bindParam(':name_safe', $name_safe, PDO::PARAM_STR);
+			$sth->bindParam(':description', $entries[$i]['cat_description'], PDO::PARAM_STR);
+			$cnt_changes = $sth->execute();
+		}
+		
+		
+		$dbh = null;
+		
+	}
+	
+	if($_POST['import_fc_entries'] == 'import') {
+		/* start import entries */
+		
+		$time = time();
+		$type = 'event';
+		$status = 'published';
+		$priority = 1;
+		
+		$dbh = new PDO("sqlite:$fc_db");
+		$sql = "SELECT * FROM fc_cals WHERE cal_startdate > :time ORDER BY cal_id ASC";
+		$sth = $dbh->prepare($sql);
+		$sth->bindParam(':time', $time, PDO::PARAM_STR);
+		$sth->execute();
+		$entries = $sth->fetchAll();
+		$dbh = null;
+		
+		$cnt_entries = count($entries);
+		
+		echo '<p class="alert alert-info">start importing '.$cnt_entries.' entries</p>';
+		
+		
+		$dbh = new PDO("sqlite:$mod_db");
+		
+		$sql_insert = "INSERT INTO posts (
+			id, type, date, releasedate, title, teaser, images, categories, author, status, lang,
+			priority, startdate, enddate
+				) VALUES (
+			NULL, :type, :date, :releasedate, :title, :teaser, :images, :categories, :author, :status, :lang,
+			:priority, :startdate, :enddate	)";
+		
+		for($i=0;$i<$cnt_entries;$i++) {
+			
+
+			$cat_str = '';
+			$cal_cats = explode('<->',$entries[$i]['cal_categories']);
+			foreach($cal_cats as $cats) {
+				$cat_str .= clean_filename($cats) . '<->';
+			}
+						 
+			$sth = $dbh->prepare($sql_insert);
+			$sth->bindParam(':type', $type, PDO::PARAM_STR);
+			$sth->bindParam(':date', $time, PDO::PARAM_STR);
+			$sth->bindParam(':releasedate', $time, PDO::PARAM_STR);
+			$sth->bindParam(':title', $entries[$i]['cal_title'], PDO::PARAM_STR);
+			$sth->bindParam(':teaser', $entries[$i]['cal_text'], PDO::PARAM_STR);
+			$sth->bindParam(':images', $entries[$i]['cal_image'], PDO::PARAM_STR);
+			$sth->bindParam(':categories', $cat_str, PDO::PARAM_STR);
+			$sth->bindParam(':author', $entries[$i]['cal_author'], PDO::PARAM_STR);
+			$sth->bindParam(':status', $status, PDO::PARAM_STR);
+			$sth->bindParam(':lang', $languagePack, PDO::PARAM_STR);
+			$sth->bindParam(':priority', $priority, PDO::PARAM_STR);
+			$sth->bindParam(':startdate', $entries[$i]['cal_startdate'], PDO::PARAM_STR);
+			$sth->bindParam(':enddate', $entries[$i]['cal_enddate'], PDO::PARAM_STR);
+			$cnt_changes = $sth->execute();
+
+			
+		}
+		
+		$dbh = null;
+		
+		
+		
+	}
+
+
+	echo '<p>'.$pub_lang['msg_import_fc'].'</p>';
+	echo '<form action="acp.php?tn=moduls&sub=publisher.mod&a=prefs#importcals" method="POST">';
+	echo '<button type="submit" name="import_fc_entries" value="import" class="btn btn-primary">'.$pub_lang['btn_start_import_entries'].'</button> ';
+	echo '<button type="submit" name="import_fc_categories" value="import" class="btn btn-primary">'.$pub_lang['btn_start_import_categories'].'</button> ';
+	echo '</form>';	
+}
 echo '</fieldset>';
 
 

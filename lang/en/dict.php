@@ -5,7 +5,10 @@ $pub_lang['nav_new_edit'] = 'New/Edit';
 $pub_lang['nav_categories'] = 'Categories';
 $pub_lang['nav_preferences'] = 'Preferences';
 
-$pub_lang['msg_import'] = 'You can import Entries, Categories and Preferences from flatNews.mod';
+$pub_lang['msg_import_fn'] = 'You can import Entries, Categories and Preferences from flatNews.mod';
+$pub_lang['msg_import_fc'] = 'You can import Entries and Categories from <strong>flatCal.mod</strong>';
+$pub_lang['msg_import_fg'] = 'You can import Galleries from <strong>fcGallery.mod</strong>';
+
 $pub_lang['btn_start_import_entries'] = 'Import Entries';
 $pub_lang['btn_start_import_categories'] = 'Import Categories';
 $pub_lang['btn_start_import_preferences'] = 'Import Preferences';
