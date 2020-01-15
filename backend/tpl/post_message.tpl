@@ -76,7 +76,7 @@
 				</fieldset>
 				<fieldset>
 					<legend>{label_categories}</legend>
-					<div class="scrollbox" style="max-height: 150px;">
+					<div class="scroll-container" style="max-height: 150px;">
 						{widget_categories}
 					</div>
 				</fieldset>
