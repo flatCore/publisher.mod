@@ -17,6 +17,9 @@ Post and Manage ...
 2. Unzip the file and upload the folder __publisher.mod__ into the directory *modules*.
 3. Open the Backend and go to the Addons Section. The installation will run automatic if you open publisher for the first time
 
+#### Requirement
+
+* flatCore Version 1.5.3
 
 
 License: GNU GENERAL PUBLIC LICENSE Version 3
