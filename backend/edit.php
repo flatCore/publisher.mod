@@ -4,7 +4,7 @@
  * backend
  */
 
-error_reporting(E_ALL ^E_NOTICE);
+//error_reporting(E_ALL ^E_NOTICE);
 
 if(!defined('FC_INC_DIR')) {
 	die("No access");
