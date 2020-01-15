@@ -185,7 +185,7 @@ foreach($images as $img) {
 $choose_tmb .= '</select>';
 
 if($edit_cat['thumbnail'] == '') {
-	$thumb_saved = '../modules/flatNews.mod/icon.png';
+	$thumb_saved = '../modules/publisher.mod/backend/poster.jpg';
 } else {
 	$thumb_saved = $edit_cat['thumbnail'];
 }
@@ -236,7 +236,7 @@ echo '<div class="scroll-container">';
 for($i=0;$i<$cnt_pub_cat;$i++) {
 	
 	if($pub_cat[$i]['thumbnail'] == '') {
-		$thumb_saved = '../modules/flatNews.mod/icon.png';
+		$thumb_saved = '../modules/publisher.mod/backend/poster.jpg';
 	} else {
 		$thumb_saved = $pub_cat[$i]['thumbnail'];
 	}
