@@ -7,6 +7,7 @@ Post and Manage ...
 * Messages
 * Events
 * Images
+* Galleries
 * Products
 * Videos (YouTube)
 * or Links
@@ -15,7 +16,7 @@ Post and Manage ...
 
 1. Download the latest Version from flatCore.org or github.com
 2. Unzip the file and upload the folder __publisher.mod__ into the directory *modules*.
-3. Open the Backend and go to the Addons Section. The installation will run automatic if you open publisher for the first time
+3. Open the Backend and go to the Addons Section. The installation starts automatically if you open publisher.mod for the first time
 
 #### Requirement
 
