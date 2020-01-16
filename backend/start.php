@@ -381,59 +381,59 @@ echo '</div>';
 echo '</div>';
 
 /* Filter Options */
-echo '<fieldset class="mt-4">';
-echo '<legend>'.$icon['filter'].' '.$pub_lang['label_language'].'</legend>';
-
+echo '<div class="card mt-2">';
+echo '<div class="card-header p-1 px-2">'.$icon['filter'].' '.$pub_lang['label_language'].'</div>';
+echo '<div class="card-body">';
 echo '<div class="text-center">'.$lang_btn_group.'</div>';
+echo '</div>';
+echo '</div>';
 
-echo '</fieldset>';
-
-echo '<fieldset class="mt-4">';
-echo '<legend>'.$icon['filter'].' '.$pub_lang['label_post_type'].'</legend>';
+echo '<div class="card mt-2">';
+echo '<div class="card-header p-1 px-2">'.$icon['filter'].' '.$pub_lang['label_post_type'].'</div>';
 
 /* type filter */
-echo '<div class="btn-group d-flex">';
+echo '<div class="list-group list-group-flush">';
 if(strpos("$_SESSION[checked_type_string]", "message") !== false) {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=message" class="btn btn-sm btn-fc active w-50">'.$pub_lang['type_message'].'</a>';
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=message" class="list-group-item list-group-item-ghost p-1 px-2 active">'.$pub_lang['type_message'].'</a>';
 } else {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=message" class="btn btn-sm btn-fc w-50">'.$pub_lang['type_message'].'</a>';
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=message" class="list-group-item list-group-item-ghost p-1 px-2">'.$pub_lang['type_message'].'</a>';
 }
 if(strpos("$_SESSION[checked_type_string]", "event") !== false) {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=event" class="btn btn-sm btn-fc active w-50">'.$pub_lang['type_event'].'</a>';
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=event" class="list-group-item list-group-item-ghost p-1 px-2 active">'.$pub_lang['type_event'].'</a>';
 } else {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=event" class="btn btn-sm btn-fc w-50">'.$pub_lang['type_event'].'</a>';
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=event" class="list-group-item list-group-item-ghost p-1 px-2">'.$pub_lang['type_event'].'</a>';
 }
 if(strpos("$_SESSION[checked_type_string]", "image") !== false) {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=image" class="btn btn-sm btn-fc active w-50">'.$pub_lang['type_image'].'</a>';
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=image" class="list-group-item list-group-item-ghost p-1 px-2 active">'.$pub_lang['type_image'].'</a>';
 } else {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=image" class="btn btn-sm btn-fc w-50">'.$pub_lang['type_image'].'</a>';
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=image" class="list-group-item list-group-item-ghost p-1 px-2">'.$pub_lang['type_image'].'</a>';
 }
 if(strpos("$_SESSION[checked_type_string]", "gallery") !== false) {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=gallery" class="btn btn-sm btn-fc active w-50">'.$pub_lang['type_gallery'].'</a>';
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=gallery" class="list-group-item list-group-item-ghost p-1 px-2 active">'.$pub_lang['type_gallery'].'</a>';
 } else {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=gallery" class="btn btn-sm btn-fc w-50">'.$pub_lang['type_gallery'].'</a>';
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=gallery" class="list-group-item list-group-item-ghost p-1 px-2">'.$pub_lang['type_gallery'].'</a>';
 }
 if(strpos("$_SESSION[checked_type_string]", "video") !== false) {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=video" class="btn btn-sm btn-fc active w-50">'.$pub_lang['type_video'].'</a>';
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=video" class="list-group-item list-group-item-ghost p-1 px-2 active">'.$pub_lang['type_video'].'</a>';
 } else {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=video" class="btn btn-sm btn-fc w-50">'.$pub_lang['type_video'].'</a>';
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=video" class="list-group-item list-group-item-ghost p-1 px-2">'.$pub_lang['type_video'].'</a>';
 }
 if(strpos("$_SESSION[checked_type_string]", "link") !== false) {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=link" class="btn btn-sm btn-fc active w-50">'.$pub_lang['type_link'].'</a>';
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=link" class="list-group-item list-group-item-ghost p-1 px-2 active">'.$pub_lang['type_link'].'</a>';
 } else {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=link" class="btn btn-sm btn-fc w-50">'.$pub_lang['type_link'].'</a>';
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=link" class="list-group-item list-group-item-ghost p-1 px-2">'.$pub_lang['type_link'].'</a>';
 }
 if(strpos("$_SESSION[checked_type_string]", "product") !== false) {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=product" class="btn btn-sm btn-fc active w-50">'.$pub_lang['type_product'].'</a>';
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=product" class="list-group-item list-group-item-ghost p-1 px-2 active">'.$pub_lang['type_product'].'</a>';
 } else {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=product" class="btn btn-sm btn-fc w-50">'.$pub_lang['type_product'].'</a>';
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=product" class="list-group-item list-group-item-ghost p-1 px-2">'.$pub_lang['type_product'].'</a>';
 }
 echo '</div>';
 
-echo '</fieldset>';
+echo '</div>';
 
-echo '<fieldset class="mt-4">';
-echo '<legend>'.$icon['filter'].' '.$pub_lang['label_status'].'</legend>';
+echo '<div class="card mt-2">';
+echo '<div class="card-header p-1 px-2">'.$icon['filter'].' '.$pub_lang['label_status'].'</div>';
 
 /* status filter */
 echo '<div class="btn-group d-flex">';
@@ -450,14 +450,14 @@ if(strpos("$_SESSION[checked_status_string]", "published") !== false) {
 echo '</div>';
 
 
-echo '</fieldset>';
+echo '</div>';
 
-echo '<fieldset class="mt-4">';
-echo '<legend>'.$icon['filter'].' '.$pub_lang['label_categories'].'</legend>';
+echo '<div class="card mt-2">';
+echo '<div class="card-header p-1 px-2">'.$icon['filter'].' '.$pub_lang['label_categories'].'</div>';
 
 echo $cat_btn_group;
 
-echo '</fieldset>';
+echo '</div>';
 
 echo '</div>';
 echo '</div>';
