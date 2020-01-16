@@ -60,5 +60,29 @@ function pub_print_currency($number) {
 }
 
 
+function pub_list_gallery_thumbs($fp,$nbr='all') {
+	
+	$fp = $fp.'*_tmb.jpg';
+
+	$thumbs_array = glob("$fp");
+	arsort($thumbs_array);
+	print_r($thumbs_array);
+
+	$thumbs = '';
+	foreach($thumbs_array as $tmb) {
+		$thumbs .= '<div class="tmb">';
+		$thumbs .= '<div class="tmb-preview"><img src="'.$tmb.'" class="img-fluid"></div>';
+		$thumbs .= '</div>';
+	}
+	
+	
+	$str = '';
+	$str .= $thumbs;
+	
+	return $str;
+		
+}
+
+
 
 ?>

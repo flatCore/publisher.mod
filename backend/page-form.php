@@ -53,6 +53,15 @@ echo '<input class="form-check-input" type="checkbox" id="typeImages" value="ima
 echo '<label class="form-check-label" for="typeImages">'.$pub_lang['type_image'].'</label>';
 echo '</div>';
 
+if($addon_data['type_filter_gallery'] == 'gallery') {
+	$check_gallery = 'checked';
+}
+
+echo '<div class="form-check form-check-inline">';
+echo '<input class="form-check-input" type="checkbox" id="typeGallery" value="gallery" name="addon[type_filter_gallery]" '.$check_gallery.'>';
+echo '<label class="form-check-label" for="typeGallery">'.$pub_lang['type_gallery'].'</label>';
+echo '</div>';
+
 if($addon_data['type_filter_link'] == 'link') {
 	$check_link = 'checked';
 }
@@ -84,10 +93,11 @@ echo '</div>';
 
 echo '</fieldset>';
 
-
+/**
 echo '<div class="form-group">';
 echo '<label>'.$pub_lang['legend_filter_by_category'].'</label>';
 echo '<input type="text" name="addon[filter_by_category]" value="'.$addon_data['filter_by_category'].'" class="form-control">';
 echo '</div>';
+**/
 
 ?>

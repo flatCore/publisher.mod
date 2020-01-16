@@ -8,10 +8,13 @@ $pub_lang['nav_preferences'] = 'Einstellungen';
 $pub_lang['msg_import_fn'] = 'Du kannst Einträge, Rubriken und Einstellungen aus <strong>flatNews.mod</strong> importieren';
 $pub_lang['msg_import_fc'] = 'Du kannst Einträge und Rubriken aus <strong>flatCal.mod</strong> importieren';
 $pub_lang['msg_import_fg'] = 'Du kannst Galerien aus <strong>fcGallery.mod</strong> importieren';
+$pub_lang['msg_post_deleted'] = 'Der Eintrag wurde gelöscht';
 
 $pub_lang['btn_start_import_entries'] = 'Einträge importieren';
 $pub_lang['btn_start_import_categories'] = 'Rubriken importieren';
 $pub_lang['btn_start_import_preferences'] = 'Einstellungen importieren';
+$pub_lang['btn_upload'] = 'Upload';
+$pub_lang['btn_sort'] = 'Sortieren & Löschen';
 
 $pub_lang['btn_all_categories'] = 'Alle Rubriken';
 
@@ -20,6 +23,7 @@ $pub_lang['select_post_type'] = 'Wähle eine Vorlage';
 $pub_lang['type_message'] = 'Nachricht';
 $pub_lang['type_event'] = 'Event';
 $pub_lang['type_image'] = 'Bild';
+$pub_lang['type_gallery'] = 'Galerie';
 $pub_lang['type_video'] = 'Video';
 $pub_lang['type_link'] = 'Link';
 $pub_lang['type_product'] = 'Produkt';
@@ -51,6 +55,7 @@ $pub_lang['label_rss_url'] = 'RSS URL';
 $pub_lang['label_status'] = 'Status';
 $pub_lang['label_url'] = 'URL';
 $pub_lang['label_url_video'] = 'Video URL (YouTube)';
+$pub_lang['label_upload'] = 'Upload';
 
 $pub_lang['label_product_number'] = 'Produktnummer';
 $pub_lang['label_product_manufacturer'] = 'Hersteller';
@@ -100,6 +105,8 @@ $pub_lang['tab_content'] = 'Inhalt';
 $pub_lang['tab_meta'] = 'Meta Data';
 $pub_lang['tab_preferences'] = 'Einstellungen';
 $pub_lang['tab_product'] = 'Produkt';
+
+$pub_lang['upload_help_text'] = 'Du musst die Galerie speichern, bevor Du Bilder hinzufügen kannst.';
 
 /* page form */
 $pub_lang['legend_filter_by_type'] = 'Nach Art filtern';

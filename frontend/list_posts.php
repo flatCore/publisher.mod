@@ -20,11 +20,13 @@ if(is_numeric($addon_data['entries_per_page'])) {
 /* overwrite filter by type if one of them is not empty */
 if($addon_data['type_filter_messages'] != '' OR $addon_data['type_filter_image'] != '' OR
 		$addon_data['type_filter_link'] != '' OR $addon_data['type_filter_video'] != '' OR
-		$addon_data['type_filter_events'] != '' OR $addon_data['type_filter_product'] != '') {
+		$addon_data['type_filter_events'] != '' OR $addon_data['type_filter_product'] != '' OR 
+		$addon_data['type_filter_gallery'] != '' ){
 			
-			$pb_posts_filter['types'] = $addon_data['type_filter_messages'].'-'.$addon_data['type_filter_image'].'-'.$addon_data['type_filter_link'].'-'.$addon_data['type_filter_video'].'-'.$addon_data['type_filter_events'].'-'.$addon_data['type_filter_product'];
-			$pb_posts_filter['types'] = implode('-',array_unique(explode('-', $pb_posts_filter['types'])));
-		}
+		$pb_posts_filter['types'] =
+		$addon_data['type_filter_messages'].'-'.$addon_data['type_filter_image'].'-'.$addon_data['type_filter_link'].'-'.$addon_data['type_filter_video'].'-'.$addon_data['type_filter_events'].'-'.$addon_data['type_filter_product'].'-'.$addon_data['type_filter_gallery'];
+		$pb_posts_filter['types'] = implode('-',array_unique(explode('-', $pb_posts_filter['types'])));
+}
 		
 $sql_start = ($pb_posts_start*$pb_posts_limit)-$pb_posts_limit;
 if($sql_start < 0) {
@@ -152,6 +154,8 @@ for($i=0;$i<$cnt_get_posts;$i++) {
 	$event_end_month = date('m',$get_posts[$i]['enddate']);
 	$event_end_year = date('Y',$get_posts[$i]['enddate']);
 	
+	/* entry date */
+	$entrydate_year = date('Y',$get_posts[$i]['date']);
 	
 	
 	/* post images */
@@ -181,6 +185,34 @@ for($i=0;$i<$cnt_get_posts;$i++) {
 		parse_str($vURL['query'],$video);
 	} else if($get_posts[$i]['type'] == 'image') {
 		$tpl = 'list_post_image.tpl';
+	} else if($get_posts[$i]['type'] == 'gallery') {
+		$tpl = 'list_post_gallery.tpl';
+		
+		$gallery_dir = 'content/publisher/galleries/'.$entrydate_year.'/gallery'.$get_posts[$i]['id'].'/';	
+		$fp = $gallery_dir.'*_tmb.jpg';
+		$tmb_tpl = file_get_contents("modules/publisher.mod/$pub_tpl_dir/templates/thumbnail.tpl");
+		$thumbs_array = glob("$fp");
+		arsort($thumbs_array);
+		$cnt_thumbs_array = count($thumbs_array);
+		if($cnt_thumbs_array > 0) {
+			$thumbnails_str = '';
+			$x = 0;
+			foreach($thumbs_array as $tmb) {
+				$x++;
+				$tmb_str = $tmb_tpl;
+				
+				$tmb_src = '/'.$tmb;
+				$img_src = str_replace('_tmb','_img',$tmb_src);
+				$tmb_str = str_replace('{tmb_src}', $tmb_src, $tmb_str);
+				$tmb_str = str_replace('{img_src}', $img_src, $tmb_str);
+				$thumbnails_str .= $tmb_str;
+				
+				if($x == 5) {
+					break;
+				}
+				
+			}
+		}
 	}
 	
 	$get_tpl = file_get_contents("modules/publisher.mod/$pub_tpl_dir/templates/$tpl");
@@ -235,6 +267,8 @@ for($i=0;$i<$cnt_get_posts;$i++) {
 	$post_tpl = str_replace("{post_price_gross}", $post_price_gross, $post_tpl);
 	$post_tpl = str_replace("{post_currency}", $get_posts[$i]['product_currency'], $post_tpl);
 	$post_tpl = str_replace("{post_product_unit}", $get_posts[$i]['product_unit'], $post_tpl);
+	
+	$post_tpl = str_replace("{post_thumbnails}", $thumbnails_str, $post_tpl);
 	
 	
 	$post_list .= $post_tpl;

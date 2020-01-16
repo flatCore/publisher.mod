@@ -74,3 +74,19 @@ a.post-headline-link:hover {
 	border-bottom: 1px solid #ddd;
 	margin-bottom: 15px;
 }
+
+.thumbnail {
+	background: rgba(0,0,0,0.1);
+	background-position: center center;
+	background-repeat: no-repeat;
+	padding: 5px;
+	margin: 5px;
+	float: left;
+	width: 155px;
+	height: 155px;
+	border-radius: 5px;
+}
+
+.thumbnail:hover {
+	box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
+}

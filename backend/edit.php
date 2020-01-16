@@ -31,7 +31,7 @@ if((isset($_REQUEST['post_id'])) && is_numeric($_REQUEST['post_id'])) {
 
 /* save or update post data */
 
-if(isset($_POST['save_post'])) {
+if(isset($_POST['save_post']) OR isset($_POST['del_tmb']) OR isset($_POST['sort_tmb'])) {
 
 	//$post_date = time();
 	$post_releasedate = time();
@@ -77,8 +77,19 @@ if(isset($_POST['save_post'])) {
 	
 	$product_price_net = str_replace('.', '', $_POST['post_product_price_net']);
 	$product_price_net = str_replace(',', '.', $product_price_net);
-
-
+	
+	/* gallery thumbnails */
+	if($_POST['del_tmb'] != '') {
+		$del_tmb = $_POST['del_tmb'];
+		$del_img = str_replace('_tmb','_img',$del_tmb);
+		unlink($del_tmb);
+		unlink($del_img);
+	}
+	
+	if($_POST['sort_tmb'] != '') {
+		pub_rename_image($_POST['sort_tmb']);
+	}
+	
 	$dbh = new PDO("sqlite:$mod_db");
 
 
@@ -161,12 +172,15 @@ if(isset($_POST['save_post'])) {
 	
 	if($modus == "new")	{
 		$post_id = $dbh->lastInsertId();
+	} else {
+		$post_id = $_POST['post_id'];
 	}
 	
 	if($cnt_changes == TRUE){
 		$sys_message = '{OKAY} ' . $lang['db_changed'];
 		record_log($_SESSION['user_nick'],"article ($modus) <i>".$_POST['post_title']."</i>",'0');
-		$post_data = pub_get_post_data($_POST['post_id']);
+		$post_data = pub_get_post_data($post_id);
+		$modus = 'update';		
 	} else {
 		$sys_message = '{ERROR} ' . $lang['db_not_changed'];
 		print_r($dbh->errorInfo());
@@ -197,6 +211,7 @@ if($modus != 'update' && !isset($_GET['new'])) {
 	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=message" class="btn btn-fc '.$btn_type['message'].'">'.$pub_lang['type_message'].'</a>';
 	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=event" class="btn btn-fc '.$btn_type['event'].'">'.$pub_lang['type_event'].'</a>';
 	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=image" class="btn btn-fc '.$btn_type['image'].'">'.$pub_lang['type_image'].'</a>';
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=gallery" class="btn btn-fc '.$btn_type['gallery'].'">'.$pub_lang['type_gallery'].'</a>';
 	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=video" class="btn btn-fc '.$btn_type['video'].'">'.$pub_lang['type_video'].'</a>';
 	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=link" class="btn btn-fc '.$btn_type['link'].'">'.$pub_lang['type_link'].'</a>';
 	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=product" class="btn btn-fc '.$btn_type['product'].'">'.$pub_lang['type_product'].'</a>';
@@ -423,6 +438,19 @@ if($post_data['type'] == 'message') {
 	$form_tpl = file_get_contents(__DIR__.'/tpl/post_event.tpl');
 } else if ($post_data['type'] == 'product') {
 	$form_tpl = file_get_contents(__DIR__.'/tpl/post_product.tpl');
+} else if ($post_data['type'] == 'gallery') {
+	$form_tpl = file_get_contents(__DIR__.'/tpl/post_gallery.tpl');
+	
+	$form_upload_tpl = file_get_contents(__DIR__.'/tpl/gallery_upload_form.tpl');
+	$form_upload_tpl = str_replace('{token}',$_SESSION['token'], $form_upload_tpl);
+	$form_upload_tpl = str_replace('{post_id}',$post_data['id'], $form_upload_tpl);
+	$form_upload_tpl = str_replace('{disabled_upload_btn}','disabled', $form_upload_tpl);
+	
+	$form_sort_tpl = file_get_contents(__DIR__.'/tpl/gallery_sort_form.tpl');
+	
+	$tmb_list = pub_list_gallery_thumbs($post_data['id']);
+	$form_sort_tpl = str_replace('{thumbnail_list}',$tmb_list, $form_sort_tpl);
+	$form_sort_tpl = str_replace('{post_id}',$post_data['id'], $form_sort_tpl);
 }
 
 if($_GET['new'] == 'message') {
@@ -443,6 +471,9 @@ if($_GET['new'] == 'message') {
 } else if ($_GET['new'] == 'product') {
 	$form_tpl = file_get_contents(__DIR__.'/tpl/post_product.tpl');
 	$post_data['type'] = 'product';
+} else if ($_GET['new'] == 'gallery') {
+	$form_tpl = file_get_contents(__DIR__.'/tpl/post_gallery.tpl');
+	$post_data['type'] = 'gallery';
 }
 
 
@@ -459,7 +490,6 @@ $form_tpl = str_replace('{post_rss_url}', $post_data['rss_url'], $form_tpl);
 $form_tpl = str_replace('{post_hidden}', $post_data['hidden'], $form_tpl);
 $form_tpl = str_replace('{post_source}', $post_data['source'], $form_tpl);
 $form_tpl = str_replace('{widget_images}', $choose_images, $form_tpl);
-$form_tpl = str_replace('{formaction}', 'acp.php?tn=moduls&sub=publisher.mod&a=edit', $form_tpl);
 $form_tpl = str_replace('{submit_button}', $submit_btn, $form_tpl);
 $form_tpl = str_replace('{token}', $_SESSION['token'], $form_tpl);
 $form_tpl = str_replace('{post_id}', $post_id, $form_tpl);
@@ -485,15 +515,19 @@ $form_tpl = str_replace('{select_rss}', $select_rss, $form_tpl);
 $form_tpl = str_replace('{checkboxes_lang}', $checkboxes_lang, $form_tpl);
 $form_tpl = str_replace('{widget_categories}', $checkboxes_cat, $form_tpl);
 
+$form_tpl = str_replace('{modal_upload_form}', $form_upload_tpl, $form_tpl);
+$form_tpl = str_replace('{thumbnail_list_form}', $form_sort_tpl, $form_tpl);
 
 foreach($pub_lang as $k => $v) {
 	$form_tpl = str_replace('{'.$k.'}', $pub_lang[$k], $form_tpl);
 }
 
-
 $form_tpl = str_replace('{tab_intro}', $pub_lang['tab_intro'], $form_tpl);
 $form_tpl = str_replace('{tab_content}', $pub_lang['tab_content'], $form_tpl);
 $form_tpl = str_replace('{tab_preferences}', $pub_lang['tab_preferences'], $form_tpl);
+
+$form_tpl = str_replace('{formaction}', 'acp.php?tn=moduls&sub=publisher.mod&a=edit', $form_tpl);
+
 
 echo $form_tpl;
 

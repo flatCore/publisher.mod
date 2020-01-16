@@ -21,14 +21,27 @@ echo '<h3>'.$mod_name.' '.$mod_version.' <small>| '.$mod['description'].'</small
 /* delete post */
 
 if((isset($_POST['delete_id'])) && is_numeric($_POST['delete_id'])) {
+	
+	$del_id = (int) $_POST['delete_id'];
+	
+	/* first get the post it's data and check the type */
+	$this_post_data = pub_get_post_data($del_id);
+	
+
+	if($this_post_data['type'] == 'gallery') {	
+		/* it's a gallery, we have to delete the images too */
+		$year = date('Y',$this_post_data['date']);
+		pub_remove_gallery($del_id,$year);
+	}
+	
 	$dbh = new PDO("sqlite:$mod_db");
 	$sql = "DELETE FROM posts WHERE id = :id";
 	$sth = $dbh->prepare($sql);
-	$sth->bindParam(':id', $_POST['delete_id'], PDO::PARAM_INT);
+	$sth->bindParam(':id', $del_id, PDO::PARAM_INT);
 	$cnt_changes = $sth->execute();
 	$dbh = NULL;
 	if($cnt_changes == TRUE) {
-		echo"<div class='alert alert-success'>ARTIKEL WURDE GELÖSCHT</div>";
+		echo '<div class="alert alert-success">'.$pub_lang['msg_post_deleted'].'</div>';
 	}
 	
 }
@@ -75,7 +88,7 @@ $pb_posts_direction = 'DESC';
 $pb_posts_filter = array();
 
 $arr_status = array('draft','published');
-$arr_types = array('message','image','video','link','event');
+$arr_types = array('message','image','video','link','event','gallery');
 $arr_lang = get_all_languages();
 $arr_categories = pub_get_categories();
 
@@ -115,7 +128,7 @@ $lang_btn_group .= '</div>';
 
 /* default: check all types */
 if(!isset($_SESSION['checked_type_string'])) {		
-	$_SESSION['checked_type_string'] = 'message-image-video-link-event';
+	$_SESSION['checked_type_string'] = 'message-image-video-link-event-gallery';
 }
 /* change status of selected types */
 if($_GET['type']) {
@@ -357,12 +370,13 @@ echo '<hr>';
 
 echo '<div class="card mt-2">';
 echo '<div class="list-group list-group-flush">';
-echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=message" class="list-group-item list-group-item-ghost p-1 px-2">'.$icon['plus'].' '.$pub_lang['type_message'].'</a>';
-echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=event" class="list-group-item list-group-item-ghost p-1 px-2">'.$icon['plus'].' '.$pub_lang['type_event'].'</a>';
-echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=image" class="list-group-item list-group-item-ghost p-1 px-2">'.$icon['plus'].' '.$pub_lang['type_image'].'</a>';
-echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=video" class="list-group-item list-group-item-ghost p-1 px-2">'.$icon['plus'].' '.$pub_lang['type_video'].'</a>';
-echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=link" class="list-group-item list-group-item-ghost p-1 px-2">'.$icon['plus'].' '.$pub_lang['type_link'].'</a>';
-echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=product" class="list-group-item list-group-item-ghost p-1 px-2">'.$icon['plus'].' '.$pub_lang['type_product'].'</a>';
+echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=message" class="list-group-item list-group-item-ghost p-1 px-2"><span class="color-message">'.$icon['plus'].'</span> '.$pub_lang['type_message'].'</a>';
+echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=event" class="list-group-item list-group-item-ghost p-1 px-2"><span class="color-event">'.$icon['plus'].'</span> '.$pub_lang['type_event'].'</a>';
+echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=image" class="list-group-item list-group-item-ghost p-1 px-2"><span class="color-image">'.$icon['plus'].'</span> '.$pub_lang['type_image'].'</a>';
+echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=gallery" class="list-group-item list-group-item-ghost p-1 px-2"><span class="color-gallery">'.$icon['plus'].'</span> '.$pub_lang['type_gallery'].'</a>';
+echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=video" class="list-group-item list-group-item-ghost p-1 px-2"><span class="color-video">'.$icon['plus'].'</span> '.$pub_lang['type_video'].'</a>';
+echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=link" class="list-group-item list-group-item-ghost p-1 px-2"><span class="color-link">'.$icon['plus'].'</span> '.$pub_lang['type_link'].'</a>';
+echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=product" class="list-group-item list-group-item-ghost p-1 px-2"><span class="color-product">'.$icon['plus'].'</span> '.$pub_lang['type_product'].'</a>';
 echo '</div>';
 echo '</div>';
 
@@ -380,34 +394,39 @@ echo '<legend>'.$icon['filter'].' '.$pub_lang['label_post_type'].'</legend>';
 /* type filter */
 echo '<div class="btn-group d-flex">';
 if(strpos("$_SESSION[checked_type_string]", "message") !== false) {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=message" class="btn btn-sm btn-fc active w-100">'.$pub_lang['type_message'].'</a>';
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=message" class="btn btn-sm btn-fc active w-50">'.$pub_lang['type_message'].'</a>';
 } else {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=message" class="btn btn-sm btn-fc w-100">'.$pub_lang['type_message'].'</a>';
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=message" class="btn btn-sm btn-fc w-50">'.$pub_lang['type_message'].'</a>';
 }
 if(strpos("$_SESSION[checked_type_string]", "event") !== false) {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=event" class="btn btn-sm btn-fc active w-100">'.$pub_lang['type_event'].'</a>';
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=event" class="btn btn-sm btn-fc active w-50">'.$pub_lang['type_event'].'</a>';
 } else {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=event" class="btn btn-sm btn-fc w-100">'.$pub_lang['type_event'].'</a>';
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=event" class="btn btn-sm btn-fc w-50">'.$pub_lang['type_event'].'</a>';
 }
 if(strpos("$_SESSION[checked_type_string]", "image") !== false) {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=image" class="btn btn-sm btn-fc active w-100">'.$pub_lang['type_image'].'</a>';
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=image" class="btn btn-sm btn-fc active w-50">'.$pub_lang['type_image'].'</a>';
 } else {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=image" class="btn btn-sm btn-fc w-100">'.$pub_lang['type_image'].'</a>';
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=image" class="btn btn-sm btn-fc w-50">'.$pub_lang['type_image'].'</a>';
+}
+if(strpos("$_SESSION[checked_type_string]", "gallery") !== false) {
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=gallery" class="btn btn-sm btn-fc active w-50">'.$pub_lang['type_gallery'].'</a>';
+} else {
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=gallery" class="btn btn-sm btn-fc w-50">'.$pub_lang['type_gallery'].'</a>';
 }
 if(strpos("$_SESSION[checked_type_string]", "video") !== false) {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=video" class="btn btn-sm btn-fc active w-100">'.$pub_lang['type_video'].'</a>';
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=video" class="btn btn-sm btn-fc active w-50">'.$pub_lang['type_video'].'</a>';
 } else {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=video" class="btn btn-sm btn-fc w-100">'.$pub_lang['type_video'].'</a>';
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=video" class="btn btn-sm btn-fc w-50">'.$pub_lang['type_video'].'</a>';
 }
 if(strpos("$_SESSION[checked_type_string]", "link") !== false) {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=link" class="btn btn-sm btn-fc active w-100">'.$pub_lang['type_link'].'</a>';
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=link" class="btn btn-sm btn-fc active w-50">'.$pub_lang['type_link'].'</a>';
 } else {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=link" class="btn btn-sm btn-fc w-100">'.$pub_lang['type_link'].'</a>';
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=link" class="btn btn-sm btn-fc w-50">'.$pub_lang['type_link'].'</a>';
 }
 if(strpos("$_SESSION[checked_type_string]", "product") !== false) {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=product" class="btn btn-sm btn-fc active w-100">'.$pub_lang['type_product'].'</a>';
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=product" class="btn btn-sm btn-fc active w-50">'.$pub_lang['type_product'].'</a>';
 } else {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=product" class="btn btn-sm btn-fc w-100">'.$pub_lang['type_product'].'</a>';
+	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=product" class="btn btn-sm btn-fc w-50">'.$pub_lang['type_product'].'</a>';
 }
 echo '</div>';
 

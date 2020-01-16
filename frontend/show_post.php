@@ -27,6 +27,10 @@ $event_end_day = date('d',$post_data['enddate']);
 $event_end_month = date('m',$post_data['enddate']);
 $event_end_year = date('Y',$post_data['enddate']);
 
+/* entry date */
+$entrydate_year = date('Y',$post_data['date']);
+
+
 /* images */
 
 if($post_images[1] != "") {
@@ -41,6 +45,30 @@ if($post_images[1] != "") {
 
 if($post_type == 'image') {
 	$tpl = file_get_contents("modules/publisher.mod/$pub_tpl_dir/templates/post_image.tpl");
+} else if ($post_type == 'gallery') {
+	
+	$tpl = file_get_contents("modules/publisher.mod/$pub_tpl_dir/templates/post_gallery.tpl");
+	$gallery_dir = 'content/publisher/galleries/'.$entrydate_year.'/gallery'.$post_data['id'].'/';
+	$fp = $gallery_dir.'*_tmb.jpg';
+	$tmb_tpl = file_get_contents("modules/publisher.mod/$pub_tpl_dir/templates/thumbnail.tpl");
+	$thumbs_array = glob("$fp");
+	arsort($thumbs_array);
+	$cnt_thumbs_array = count($thumbs_array);
+	if($cnt_thumbs_array > 0) {
+		$thumbnails_str = '';
+		
+		foreach($thumbs_array as $tmb) {
+			$tmb_str = $tmb_tpl;
+			
+			$tmb_src = '/'.$tmb;
+			$img_src = str_replace('_tmb','_img',$tmb_src);
+			$tmb_str = str_replace('{tmb_src}', $tmb_src, $tmb_str);
+			$tmb_str = str_replace('{img_src}', $img_src, $tmb_str);
+			$thumbnails_str .= $tmb_str;
+			
+		}
+	}
+	
 } else if ($post_type == 'video') {
 	$tpl = file_get_contents("modules/publisher.mod/$pub_tpl_dir/templates/post_video.tpl");
 	$vURL = parse_url($post_data['video_url']);
@@ -124,6 +152,8 @@ $post_tpl = str_replace("{back_link}", "/$fct_slug", $post_tpl);
 $post_tpl = str_replace("{post_price_gross}", $post_price_gross, $post_tpl);
 $post_tpl = str_replace("{post_currency}", $post_data['product_currency'], $post_tpl);
 $post_tpl = str_replace("{post_product_unit}", $post_data['product_unit'], $post_tpl);
+
+$post_tpl = str_replace("{post_thumbnails}", $thumbnails_str, $post_tpl);
 
 $modul_content = "$post_tpl $tests";
 

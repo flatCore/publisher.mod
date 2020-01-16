@@ -8,10 +8,13 @@ $pub_lang['nav_preferences'] = 'Preferences';
 $pub_lang['msg_import_fn'] = 'You can import Entries, Categories and Preferences from flatNews.mod';
 $pub_lang['msg_import_fc'] = 'You can import Entries and Categories from <strong>flatCal.mod</strong>';
 $pub_lang['msg_import_fg'] = 'You can import Galleries from <strong>fcGallery.mod</strong>';
+$pub_lang['msg_post_deleted'] = 'The entry has been deleted';
 
 $pub_lang['btn_start_import_entries'] = 'Import Entries';
 $pub_lang['btn_start_import_categories'] = 'Import Categories';
 $pub_lang['btn_start_import_preferences'] = 'Import Preferences';
+$pub_lang['btn_upload'] = 'Upload';
+$pub_lang['btn_sort'] = 'Sort & Delete';
 
 $pub_lang['btn_all_categories'] = 'All Categories';
 
@@ -20,6 +23,7 @@ $pub_lang['select_post_type'] = 'Select Post Type';
 $pub_lang['type_message'] = 'Post';
 $pub_lang['type_event'] = 'Event';
 $pub_lang['type_image'] = 'Image';
+$pub_lang['type_gallery'] = 'Gallery';
 $pub_lang['type_video'] = 'Video';
 $pub_lang['type_link'] = 'Link';
 $pub_lang['type_product'] = 'Product';
@@ -51,6 +55,7 @@ $pub_lang['label_rss_url'] = 'RSS URL';
 $pub_lang['label_status'] = 'Status';
 $pub_lang['label_url'] = 'URL';
 $pub_lang['label_url_video'] = 'Video URL (YouTube)';
+$pub_lang['label_upload'] = 'Upload';
 
 $pub_lang['label_product_number'] = 'Product Number';
 $pub_lang['label_product_manufacturer'] = 'Manufacturer';
@@ -100,6 +105,8 @@ $pub_lang['tab_content'] = 'Content';
 $pub_lang['tab_meta'] = 'Meta Data';
 $pub_lang['tab_preferences'] = 'Preferences';
 $pub_lang['tab_product'] = 'Product';
+
+$pub_lang['upload_help_text'] = 'You have to save the gallery before you can add pictures';
 
 /* page form */
 $pub_lang['legend_filter_by_type'] = 'Filter by Type';

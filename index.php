@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * publisher.mod main include file
  *
