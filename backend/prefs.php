@@ -529,8 +529,6 @@ if(is_file($fc_db)) {
 		
 		$dbh = null;
 		
-		
-		
 	}
 
 
@@ -538,6 +536,100 @@ if(is_file($fc_db)) {
 	echo '<form action="acp.php?tn=moduls&sub=publisher.mod&a=prefs#importcals" method="POST">';
 	echo '<button type="submit" name="import_fc_entries" value="import" class="btn btn-primary">'.$pub_lang['btn_start_import_entries'].'</button> ';
 	echo '<button type="submit" name="import_fc_categories" value="import" class="btn btn-primary">'.$pub_lang['btn_start_import_categories'].'</button> ';
+	echo '</form>';	
+}
+echo '</fieldset>';
+
+
+
+
+echo '<fieldset id="importgalleries">';
+echo '<legend>Import fcGallery.mod</legend>';
+
+$fcg_db = '../content/SQLite/flatPix.sqlite3';
+if(is_file($fcg_db)) {
+
+	if($_POST['import_fcg_galleries'] == 'import') {
+		/* start import galleries */
+
+		$type = 'gallery';
+		$status = 'published';
+		$priority = 1;
+		
+		$dbh = new PDO("sqlite:$fcg_db");
+		$sql = "SELECT * FROM fp_galleries ORDER BY fp_gal_id ASC";
+		$sth = $dbh->prepare($sql);
+		$sth->execute();
+		$entries = $sth->fetchAll();
+		$dbh = null;
+
+		$cnt_entries = count($entries);
+		
+		echo '<p class="alert alert-info">start importing '.$cnt_entries.' entries from gallery table</p>';
+
+		$dbh = new PDO("sqlite:$mod_db");
+		
+		$sql_insert = "INSERT INTO posts (
+			id, type, date, releasedate, title, teaser, status, priority, slug
+				) VALUES (
+			NULL, :type, :date, :releasedate, :title, :teaser, :status, :priority, :slug )";
+					
+		
+		for($i=0;$i<$cnt_entries;$i++) {
+			
+			$time = time();
+			$gal_id = $entries[$i]['fp_gal_id'];
+			$gal_dir = '../content/flatPix/gal'.$gal_id;
+			$gal_imgs = glob("$gal_dir/$gal_id_img*.jpg");
+			
+			$clean_title = clean_filename($entries[$i]['fp_gal_title']);
+			$post_date_year = date("Y",$entries[$i]['fp_gal_date']);
+			$post_date_month = date("m",$entries[$i]['fp_gal_date']);
+			$post_date_day = date("d",$entries[$i]['fp_gal_date']);
+			$slug = "$post_date_year/$post_date_month/$post_date_day/$clean_title/";
+
+			$sth = $dbh->prepare($sql_insert);
+			$sth->bindParam(':type', $type, PDO::PARAM_STR);
+			$sth->bindParam(':date', $entries[$i]['fp_gal_date'], PDO::PARAM_STR);
+			$sth->bindParam(':releasedate', $entries[$i]['fp_gal_date'], PDO::PARAM_STR);
+			$sth->bindParam(':title', $entries[$i]['fp_gal_title'], PDO::PARAM_STR);
+			$sth->bindParam(':teaser', $entries[$i]['fp_gal_description'], PDO::PARAM_STR);
+			$sth->bindParam(':status', $status, PDO::PARAM_STR);
+			$sth->bindParam(':priority', $priority, PDO::PARAM_STR);
+			$sth->bindParam(':slug', $slug, PDO::PARAM_STR);
+			$cnt_changes = $sth->execute();
+			
+			$post_id = $dbh->lastInsertId();
+			
+			//echo $entries[$i]['fp_gal_id'] . ' - ' .$entries[$i]['fp_gal_title'].' - '. $entries[$i]['fp_gal_id'].'<br>';
+			
+			$new_dir = '../content/publisher/galleries/'.date('Y',$entries[$i]['fp_gal_date']).'/gallery'.$post_id;
+			if(mkdir($new_dir, 0777, true)) {
+				
+				/* copy and rename images to new directory */
+				foreach($gal_imgs as $old_img) {
+					$timestring = microtime(true);
+					if(stripos($old_img,"_img_") !== false) {
+						/* copy image */
+						$new_img = $new_dir.'/'.$timestring.'_img.jpg';
+						$new_tmb = $new_dir.'/'.$timestring.'_tmb.jpg';
+						$old_tmb = str_replace('_img_','_thumb_',$old_img);
+						
+						copy($old_img ,$new_img);
+						copy($old_tmb ,$new_tmb);
+						
+					}
+				}	
+			}
+		}
+		
+		$dbh = null;
+
+	}
+
+	echo '<p>'.$pub_lang['import_fcg_galleries'].'</p>';
+	echo '<form action="acp.php?tn=moduls&sub=publisher.mod&a=prefs#importcals" method="POST">';
+	echo '<button type="submit" name="import_fcg_galleries" value="import" class="btn btn-primary">'.$pub_lang['btn_start_import_entries'].'</button> ';
 	echo '</form>';	
 }
 echo '</fieldset>';

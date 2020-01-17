@@ -95,6 +95,5 @@ function pub_remove_gallery($id,$dir) {
 	
 	
 }
-	
-	
+
 ?>
