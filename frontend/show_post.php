@@ -97,7 +97,7 @@ foreach ($array_categories as $value) {
 	unset($cat_link_href,$cat_name);
 	$cat_name = $all_cats[$value][0];
 	$cat_link_href = FC_INC_DIR . "/$fct_slug" . $pub_preferences['url_separator_categories'] . "/$value/";
-	if($cat_link_href != '') {
+	if($value != '') {
     $cat_links = $tpl_link;
     $cat_links = str_replace('{href}',$cat_link_href,$cat_links);
     $cat_links = str_replace('{text}',$cat_name,$cat_links);
