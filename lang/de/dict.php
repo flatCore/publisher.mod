@@ -9,6 +9,7 @@ $pub_lang['msg_import_fn'] = 'Du kannst Einträge, Rubriken und Einstellungen au
 $pub_lang['msg_import_fc'] = 'Du kannst Einträge und Rubriken aus <strong>flatCal.mod</strong> importieren';
 $pub_lang['msg_import_fg'] = 'Du kannst Galerien aus <strong>fcGallery.mod</strong> importieren';
 $pub_lang['msg_post_deleted'] = 'Der Eintrag wurde gelöscht';
+$pub_lang['msg_no_posts_to_show'] = 'Es gibt hier im Moment keine Einträge.';
 
 $pub_lang['btn_start_import_entries'] = 'Einträge importieren';
 $pub_lang['btn_start_import_categories'] = 'Rubriken importieren';

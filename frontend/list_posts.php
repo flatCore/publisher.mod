@@ -276,10 +276,6 @@ for($i=0;$i<$cnt_get_posts;$i++) {
 }
 
 
-
-
-
-
 $index_tpl = file_get_contents("modules/publisher.mod/$pub_tpl_dir/templates/index.tpl");
 $index_tpl = str_replace("{post_list}", $post_list, $index_tpl);
 $index_tpl = str_replace("{intro_snippet}", $intro_snippet, $index_tpl);
@@ -292,6 +288,10 @@ $index_tpl = str_replace("{lang_entries}", $pub_lang['entries'], $index_tpl);
 $index_tpl = str_replace("{lang_entries_cnt}", $pub_lang['entries_cnt'], $index_tpl);
 $index_tpl = str_replace("{category_filter}", $cat_name, $index_tpl);
 
+
+if($cnt_filter_posts < 1) {
+	$index_tpl = '<div class="alert alert-info">'.$pub_lang['msg_no_posts_to_show'].'</div>';
+}
 
 
 $modul_content = $index_tpl;

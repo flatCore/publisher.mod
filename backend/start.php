@@ -217,117 +217,118 @@ echo '<div class="col-md-9">';
 
 echo '<h4>'.$cnt_filter_posts.'/'.$cnt_posts['All'].'</h4>';
 
-echo '<table class="table table-sm table-hover">';
+if($cnt_filter_posts > 0) {
 
-echo '<thead><tr>';
-echo '<th>#</th>';
-echo '<th>'.$icon['star'].'</th>';
-echo '<th>'.$pub_lang['label_priority'].'</th>';
-echo '<th nowrap>'.$pub_lang['label_date'].'</th>';
-echo '<th>'.$pub_lang['label_post_type'].'</th>';
-echo '<th></th>';
-echo '<th>'.$pub_lang['label_post_title'].'</th>';
-echo '<th></th>';
-echo '</tr></thead>';
-
-for($i=0;$i<$cnt_get_posts;$i++) {
+	echo '<table class="table table-sm table-hover">';
 	
-	$type_class = 'label-type label-'.$get_posts[$i]['type'];
-	$icon_fixed = '';
-	$draft_class = '';
+	echo '<thead><tr>';
+	echo '<th>#</th>';
+	echo '<th>'.$icon['star'].'</th>';
+	echo '<th>'.$pub_lang['label_priority'].'</th>';
+	echo '<th nowrap>'.$pub_lang['label_date'].'</th>';
+	echo '<th>'.$pub_lang['label_post_type'].'</th>';
+	echo '<th></th>';
+	echo '<th>'.$pub_lang['label_post_title'].'</th>';
+	echo '<th></th>';
+	echo '</tr></thead>';
 	
-	if($get_posts[$i]['fixed'] == 'fixed') {
-		$icon_fixed = '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&rfixed='.$get_posts[$i]['id'].'">'.$icon['star'].'</a>';
-	} else {
-		$icon_fixed = '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&sfixed='.$get_posts[$i]['id'].'">'.$icon['star_outline'].'</a>';
-	}
-	
-	if($get_posts[$i]['status'] == 'draft') {
-		$draft_class = 'item_is_draft';
-	}
-	
-	/* trim teaser to $trim chars */
-	$trim = 150;
-	$teaser = strip_tags($get_posts[$i]['teaser']);
-	if(strlen($teaser) > $trim) {
-		$ellipses = ' <small><i>(...)</i></small>';
-	  $last_space = strrpos(substr($teaser, 0, $trim), ' ');
-	  if($last_space !== false) {
-		  $trimmed_teaser = substr($teaser, 0, $last_space);
+	for($i=0;$i<$cnt_get_posts;$i++) {
+		
+		$type_class = 'label-type label-'.$get_posts[$i]['type'];
+		$icon_fixed = '';
+		$draft_class = '';
+		
+		if($get_posts[$i]['fixed'] == 'fixed') {
+			$icon_fixed = '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&rfixed='.$get_posts[$i]['id'].'">'.$icon['star'].'</a>';
 		} else {
-			$trimmed_teaser = substr($teaser, 0, $trim);
+			$icon_fixed = '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&sfixed='.$get_posts[$i]['id'].'">'.$icon['star_outline'].'</a>';
 		}
-		$trimmed_teaser = $trimmed_teaser.$ellipses;
-	} else {
-		$trimmed_teaser = $teaser;
-	}
-	
-	
-	$post_image = explode("<->", $get_posts[$i]['images']);
-	$show_thumb = '';
-	if($post_image[1] != "") {
-		$image_src = $post_image[1];
-		/* older version of flatNews stored only basename of images */
-		if(stripos($post_image[1],'/content/') === FALSE) {
-			$image_src = "/$img_path/" . $post_image[1];
+		
+		if($get_posts[$i]['status'] == 'draft') {
+			$draft_class = 'item_is_draft';
+		}
+		
+		/* trim teaser to $trim chars */
+		$trim = 150;
+		$teaser = strip_tags($get_posts[$i]['teaser']);
+		if(strlen($teaser) > $trim) {
+			$ellipses = ' <small><i>(...)</i></small>';
+		  $last_space = strrpos(substr($teaser, 0, $trim), ' ');
+		  if($last_space !== false) {
+			  $trimmed_teaser = substr($teaser, 0, $last_space);
+			} else {
+				$trimmed_teaser = substr($teaser, 0, $trim);
+			}
+			$trimmed_teaser = $trimmed_teaser.$ellipses;
+		} else {
+			$trimmed_teaser = $teaser;
+		}
+		
+		
+		$post_image = explode("<->", $get_posts[$i]['images']);
+		$show_thumb = '';
+		if($post_image[1] != "") {
+			$image_src = $post_image[1];
+			/* older version of flatNews stored only basename of images */
+			if(stripos($post_image[1],'/content/') === FALSE) {
+				$image_src = "/$img_path/" . $post_image[1];
+			}
+		
+			$show_thumb  = '<a data-toggle="popover" data-trigger="hover" data-html="true" data-content="<img src=\''.$image_src.'\'>">';
+			$show_thumb .= '<div class="show-thumb" style="background-image: url('.$image_src.');">';
+			$show_thumb .= '</div>';
 		}
 	
-		$show_thumb  = '<a data-toggle="popover" data-trigger="hover" data-html="true" data-content="<img src=\''.$image_src.'\'>">';
-		$show_thumb .= '<div class="show-thumb" style="background-image: url('.$image_src.');">';
-		$show_thumb .= '</div>';
-	
-	
-	}
-
-	
-	$select_priority = '<select name="post_priority" class="form-control custom-select" onchange="this.form.submit()">';
-	for($x=1;$x<11;$x++) {
-		$option_add = '';
-		$sel_prio = '';
-		if($get_posts[$i]['priority'] == $x) {
-			$sel_prio = 'selected';
+		
+		$select_priority = '<select name="post_priority" class="form-control custom-select" onchange="this.form.submit()">';
+		for($x=1;$x<11;$x++) {
+			$option_add = '';
+			$sel_prio = '';
+			if($get_posts[$i]['priority'] == $x) {
+				$sel_prio = 'selected';
+			}
+			$select_priority .= '<option value="'.$x.'" '.$sel_prio.'>'.$x.'</option>';
 		}
-		$select_priority .= '<option value="'.$x.'" '.$sel_prio.'>'.$x.'</option>';
-	}
-	$select_priority .= '</select>';
-	
-	
-	
-	$prio_form  = '<form action="acp.php?tn=moduls&sub=publisher.mod&a=start" method="POST">';
-	$prio_form .= $select_priority;
-	$prio_form .= '<input type="hidden" name="prio_id" value="'.$get_posts[$i]['id'].'">';
-	$prio_form .= '<input type="hidden" name="csrf_token" value="'.$_SESSION['token'].'">';
-	$prio_form .= '</form>';
-	
-	$published_date = '<span title="'.date('Y-m-d h:i:s',$get_posts[$i]['date']).'">E: '.date('Y-m-d',$get_posts[$i]['date']).'</span>';
-	$release_date = '<span title="'.date('Y-m-d h:i:s',$get_posts[$i]['releasedate']).'">R: '.date('Y-m-d',$get_posts[$i]['releasedate']).'</span>';
-	$lastedit_date = '';
-	if($get_posts[$i]['lastedit'] != '') {
-		$lastedit_date = '<span title="'.date('Y-m-d h:i:s',$get_posts[$i]['lastedit']).' ('.$get_posts[$i]['lastedit_from'].')">L: '.date('Y-m-d',$get_posts[$i]['lastedit']).'</span>';
-	}
-	
-	
-	echo '<tr class="'.$draft_class.'">';
-	echo '<td>'.$get_posts[$i]['id'].'</td>';
-	echo '<td>'.$icon_fixed.'</td>';
-	echo '<td>'.$prio_form.'</td>';
-	echo '<td nowrap><small>'.$published_date.'<br>'.$release_date.'<br>'.$lastedit_date.'</small></td>';
-	echo '<td><span class="'.$type_class.'">'.$get_posts[$i]['type'].'</span></td>';
-	echo '<td>'.$show_thumb.'</td>';
-	echo '<td><h5 class="mb-0">'.$get_posts[$i]['title'].'</h5><small>'.$trimmed_teaser.'</small></td>';
-	echo '<td style="min-width: 150px;">';
-	echo '<nav class="nav justify-content-end">';
-	echo '<a class="btn btn-fc btn-sm text-success mx-1" href="acp.php?tn=moduls&sub=publisher.mod&a=edit&post_id='.$get_posts[$i]['id'].'">'.$lang['edit'].'</a>';
-	echo '<form class="form-inline" action="acp.php?tn=moduls&sub=publisher.mod&a=start" method="POST"><button class="btn btn-danger btn-sm" type="submit" name="delete_id" value="'.$get_posts[$i]['id'].'">'.$icon['trash_alt'].'</button></form>';
-	echo '</nav>';
-	echo '</td>';
-	echo '</tr>';
+		$select_priority .= '</select>';
+		
+		
+		$prio_form  = '<form action="acp.php?tn=moduls&sub=publisher.mod&a=start" method="POST">';
+		$prio_form .= $select_priority;
+		$prio_form .= '<input type="hidden" name="prio_id" value="'.$get_posts[$i]['id'].'">';
+		$prio_form .= '<input type="hidden" name="csrf_token" value="'.$_SESSION['token'].'">';
+		$prio_form .= '</form>';
+		
+		$published_date = '<span title="'.date('Y-m-d h:i:s',$get_posts[$i]['date']).'">E: '.date('Y-m-d',$get_posts[$i]['date']).'</span>';
+		$release_date = '<span title="'.date('Y-m-d h:i:s',$get_posts[$i]['releasedate']).'">R: '.date('Y-m-d',$get_posts[$i]['releasedate']).'</span>';
+		$lastedit_date = '';
+		if($get_posts[$i]['lastedit'] != '') {
+			$lastedit_date = '<span title="'.date('Y-m-d h:i:s',$get_posts[$i]['lastedit']).' ('.$get_posts[$i]['lastedit_from'].')">L: '.date('Y-m-d',$get_posts[$i]['lastedit']).'</span>';
+		}
+		
+		
+		echo '<tr class="'.$draft_class.'">';
+		echo '<td>'.$get_posts[$i]['id'].'</td>';
+		echo '<td>'.$icon_fixed.'</td>';
+		echo '<td>'.$prio_form.'</td>';
+		echo '<td nowrap><small>'.$published_date.'<br>'.$release_date.'<br>'.$lastedit_date.'</small></td>';
+		echo '<td><span class="'.$type_class.'">'.$get_posts[$i]['type'].'</span></td>';
+		echo '<td>'.$show_thumb.'</td>';
+		echo '<td><h5 class="mb-0">'.$get_posts[$i]['title'].'</h5><small>'.$trimmed_teaser.'</small></td>';
+		echo '<td style="min-width: 150px;">';
+		echo '<nav class="nav justify-content-end">';
+		echo '<a class="btn btn-fc btn-sm text-success mx-1" href="acp.php?tn=moduls&sub=publisher.mod&a=edit&post_id='.$get_posts[$i]['id'].'">'.$lang['edit'].'</a>';
+		echo '<form class="form-inline" action="acp.php?tn=moduls&sub=publisher.mod&a=start" method="POST"><button class="btn btn-danger btn-sm" type="submit" name="delete_id" value="'.$get_posts[$i]['id'].'">'.$icon['trash_alt'].'</button></form>';
+		echo '</nav>';
+		echo '</td>';
+		echo '</tr>';
 
+	}
+	
+	echo '</table>';
 
+} else {
+	echo '<div class="alert alert-info">'.$pub_lang['msg_no_posts_to_show'].'</div>';
 }
-
-echo '</table>';
-
 echo '</div>';
 echo '<div class="col-md-3">';
 
