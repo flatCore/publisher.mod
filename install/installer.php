@@ -19,12 +19,24 @@ if(!is_file("$mod_db")) {
 			status,
 			entries_per_page,
 			url_pattern,
+			url_separator_categories,
+			url_separator_pages,
+			entries_per_page,
+			default_banner,
+			default_template,
+			default_page_template_entries,
 			version
 				) VALUES (
 			NULL,
 			'active',
 			'10',
 			'date',
+			'c',
+			'p',
+			'25',
+			'use_standard',
+			'use_standard',
+			'use_standard',
 			'$mod[version]'
 			)";
 	
