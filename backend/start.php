@@ -88,7 +88,7 @@ $pb_posts_direction = 'DESC';
 $pb_posts_filter = array();
 
 $arr_status = array('draft','published');
-$arr_types = array('message','image','video','link','event','gallery');
+$arr_types = array('message','image','video','link','event','gallery','product');
 $arr_lang = get_all_languages();
 $arr_categories = pub_get_categories();
 
@@ -128,7 +128,7 @@ $lang_btn_group .= '</div>';
 
 /* default: check all types */
 if(!isset($_SESSION['checked_type_string'])) {		
-	$_SESSION['checked_type_string'] = 'message-image-video-link-event-gallery';
+	$_SESSION['checked_type_string'] = 'message-image-video-link-event-gallery-product';
 }
 /* change status of selected types */
 if($_GET['type']) {
