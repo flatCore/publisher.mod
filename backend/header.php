@@ -49,56 +49,53 @@ if(!defined('FC_INC_DIR')) {
 		});
 
 
-		get_netto = $("#price").val();
-		get_tax = parseInt($('#tax').val());
-		get_netto_calc = get_netto.replace(/\./g, '');
-		get_netto_calc = get_netto_calc.replace(",",".");
-		current_brutto = get_netto_calc*(get_tax+100)/100;
-		current_brutto = accounting.formatNumber(current_brutto,4,".",",");
-		$('#price_total').val(current_brutto);	
-
-
-		$('#price').keyup(function(){
-			get_netto = $('#price').val();
+		if($("#price").val()) {
+			
+			get_netto = $("#price").val();
 			get_tax = parseInt($('#tax').val());
 			get_netto_calc = get_netto.replace(/\./g, '');
 			get_netto_calc = get_netto_calc.replace(",",".");
 			current_brutto = get_netto_calc*(get_tax+100)/100;
 			current_brutto = accounting.formatNumber(current_brutto,4,".",",");
-			$('#price_total').val(current_brutto);
-		
-		});
-		
-		$('#price_total').keyup(function(){
-		
-			get_brutto = $('#price_total').val();
-			get_tax = parseInt($('#tax').val());
-			get_brutto_calc = get_brutto.replace(/\./g, '');
-			get_brutto_calc = get_brutto_calc.replace(",",".");
-			current_netto = get_brutto_calc*100/(get_tax+100);
-			current_netto = accounting.formatNumber(current_netto,4,".",",");
-			$('#price').val(current_netto);
-		
-		});
-		
-		
-		$('#tax').keyup(function(){
-		
-			get_netto = $('#price').val();
-			get_tax = parseInt($('#tax').val());
-			get_netto_calc = get_netto.replace(",",".");
-			
-			current_brutto = get_netto_calc*(get_tax+100)/100;
-			current_brutto = accounting.formatNumber(current_brutto,4,".",",");
+			$('#price_total').val(current_brutto);	
 	
-			get_brutto_calc = current_brutto.replace(",",".");
-			current_netto = get_brutto_calc*100/(get_tax+100);
-			current_netto = accounting.formatNumber(current_netto,4,".",",");
-	
-			$('#price_total').val(current_brutto);
-			$('#price').val(current_netto);
+			$('#price').keyup(function(){
+				get_netto = $('#price').val();
+				get_tax = parseInt($('#tax').val());
+				get_netto_calc = get_netto.replace(/\./g, '');
+				get_netto_calc = get_netto_calc.replace(",",".");
+				current_brutto = get_netto_calc*(get_tax+100)/100;
+				current_brutto = accounting.formatNumber(current_brutto,4,".",",");
+				$('#price_total').val(current_brutto);
+			});			
 			
-		});	
+			$('#price_total').keyup(function(){
+				get_brutto = $('#price_total').val();
+				get_tax = parseInt($('#tax').val());
+				get_brutto_calc = get_brutto.replace(/\./g, '');
+				get_brutto_calc = get_brutto_calc.replace(",",".");
+				current_netto = get_brutto_calc*100/(get_tax+100);
+				current_netto = accounting.formatNumber(current_netto,4,".",",");
+				$('#price').val(current_netto);
+			});
+			
+			$('#tax').keyup(function(){
+				get_netto = $('#price').val();
+				get_tax = parseInt($('#tax').val());
+				get_netto_calc = get_netto.replace(",",".");
+
+				current_brutto = get_netto_calc*(get_tax+100)/100;
+				current_brutto = accounting.formatNumber(current_brutto,4,".",",");
+
+				get_brutto_calc = current_brutto.replace(",",".");
+				current_netto = get_brutto_calc*100/(get_tax+100);
+				current_netto = accounting.formatNumber(current_netto,4,".",",");
+
+				$('#price_total').val(current_brutto);
+				$('#price').val(current_netto);
+			});
+		
+		}
 	
 	
 	});
