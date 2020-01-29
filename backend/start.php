@@ -305,6 +305,15 @@ if($cnt_filter_posts > 0) {
 			$lastedit_date = '<span title="'.date('Y-m-d h:i:s',$get_posts[$i]['lastedit']).' ('.$get_posts[$i]['lastedit_from'].')">L: '.date('Y-m-d',$get_posts[$i]['lastedit']).'</span>';
 		}
 		
+		$show_events_date = '';
+		if($get_posts[$i]['type'] == 'event') {
+			$show_events_date = '<div class="float-right small well well-sm">';
+			$show_events_date .= date('Y-m-d',$get_posts[$i]['startdate']);
+			$show_events_date .= '<br>';
+			$show_events_date .= date('Y-m-d',$get_posts[$i]['enddate']);
+			$show_events_date .= '</div>';
+		}
+		
 		
 		echo '<tr class="'.$draft_class.'">';
 		echo '<td>'.$get_posts[$i]['id'].'</td>';
@@ -313,7 +322,7 @@ if($cnt_filter_posts > 0) {
 		echo '<td nowrap><small>'.$published_date.'<br>'.$release_date.'<br>'.$lastedit_date.'</small></td>';
 		echo '<td><span class="'.$type_class.'">'.$get_posts[$i]['type'].'</span></td>';
 		echo '<td>'.$show_thumb.'</td>';
-		echo '<td><h5 class="mb-0">'.$get_posts[$i]['title'].'</h5><small>'.$trimmed_teaser.'</small></td>';
+		echo '<td>'.$show_events_date.'<h5 class="mb-0">'.$get_posts[$i]['title'].'</h5><small>'.$trimmed_teaser.'</small></td>';
 		echo '<td style="min-width: 150px;">';
 		echo '<nav class="nav justify-content-end">';
 		echo '<a class="btn btn-fc btn-sm text-success mx-1" href="acp.php?tn=moduls&sub=publisher.mod&a=edit&post_id='.$get_posts[$i]['id'].'">'.$lang['edit'].'</a>';
