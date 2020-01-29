@@ -197,11 +197,18 @@ if(isset($_POST['save_post']) OR isset($_POST['del_tmb']) OR isset($_POST['sort_
 }
 
 
+if(isset($_GET['new'])) {
+	$show_type = $_GET['new'];
+}
+
+if($post_data['type'] != '') {
+	$show_type = $post_data['type'];
+}
 
 
 
 
-echo '<h3>'.$mod_name.' '.$mod_version.' <small>| '.$modus.'</small></h3>';
+echo '<h3>'.$mod_name.' '.$mod_version.' <small>| '.$modus.' '.$show_type.'</small></h3>';
 
 
 if($modus != 'update' && !isset($_GET['new'])) {
