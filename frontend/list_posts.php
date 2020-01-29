@@ -169,7 +169,7 @@ for($i=0;$i<$cnt_get_posts;$i++) {
 	} else if($pub_preferences['default_banner'] == "without_image") {
 		$tpl = 'list_post_message_wo_image.tpl';
 	} else {
-		$first_post_image = "/$img_path/" . $pub_preferences['standard_banner'];
+		$first_post_image = "/$img_path/" . $pub_preferences['default_banner'];
 	}
 		
 	/* type of post */

@@ -2,7 +2,7 @@
 	<div class="row">
 		<div class="col-md-4">
 			<div class="teaser-image">
-				<img src="{post_img_src}" class="img-thumbnail">
+				<img src="{post_img_src}" class="img-fluid">
 			</div>
 		</div>
 		<div class="col-md-8">

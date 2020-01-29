@@ -12,8 +12,6 @@ a.post-headline-link:hover {
 
 
 .event-date {
-	width: 150px;
-	float: right;
 	background: rgba(0,0,0,0.1);
 	padding: 2px;
 	text-align: center;
@@ -23,16 +21,19 @@ a.post-headline-link:hover {
 	background: rgba(0,0,0,0.2);
 	padding: 3px;
 	margin: -2px -2px 0 -2px;
+	font-size: 14px;
 }
 
 .event-start-year {
 	display: block;
-	font-size: 45px;
+	font-size: 35px;
+	line-height: 35px;
 	opacity: .5;
 }
 
 .event-end-date {
 	font-size: 12px;
+	line-height: 14px;
 	opacity: .3;
 }
 
