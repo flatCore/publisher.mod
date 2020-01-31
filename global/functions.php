@@ -41,16 +41,20 @@ function pub_get_entries($start=0,$limit=10,$filter) {
 	 * we ignore $order and $direction
 	 */
 
-	$order = 'fixed DESC, sortdate DESC, sortdate_events ASC, priority DESC, id DESC';
+	$order = 'ORDER BY fixed DESC, sortdate DESC, priority DESC, id DESC';
+	
+	if(FC_SOURCE == 'frontend') {
+		if($filter['types'] == '-event') {
+			$order = 'ORDER BY fixed DESC, sortdate_events ASC, sortdate DESC, priority DESC, id DESC';
+		}
+	}
 	
 	if($direction == 'ASC') {
 		$direction = 'ASC';
 	} else {
 		$direction = 'DESC';
 	}
-	
-	
-	
+		
 	/* set filters */
 	$sql_filter_start = 'WHERE id IS NOT NULL ';
 	
@@ -114,6 +118,11 @@ function pub_get_entries($start=0,$limit=10,$filter) {
 
 	if(FC_SOURCE == 'frontend') {
 		$sql_filter .= "AND releasedate <= '$time_string_now' ";
+		
+		if($filter['types'] == '-event') {
+			$sql_filter .= "AND enddate >= '$time_string_now' ";
+		}
+		
 	}
 	
 	if($time_string_start != '') {
@@ -125,8 +134,7 @@ function pub_get_entries($start=0,$limit=10,$filter) {
 	
 	$dbh = new PDO("sqlite:$mod_db");
 	
-	$sql = "SELECT *, strftime('%Y-%m-%d',datetime(releasedate, 'unixepoch')) as 'sortdate', strftime('%Y-%m-%d',datetime(startdate, 'unixepoch')) as 'sortdate_events' FROM posts $sql_filter ORDER BY $order $limit_str";
-	//echo $sql;
+	$sql = "SELECT *, strftime('%Y-%m-%d',datetime(releasedate, 'unixepoch')) as 'sortdate', strftime('%Y-%m-%d',datetime(startdate, 'unixepoch')) as 'sortdate_events' FROM posts $sql_filter $order $limit_str";
 	$sth = $dbh->prepare($sql);
 	$sth->execute();
 	$entries = $sth->fetchAll(PDO::FETCH_ASSOC);
