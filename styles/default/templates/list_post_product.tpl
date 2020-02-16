@@ -9,7 +9,7 @@
 			<div class="price-tag">
 				{post_currency} {post_price_gross} <span class="product-unit">{post_product_unit}</span>
 			</div>
-			<span>{post_releasedate} </span>
+			<span class="post-author">{post_author}</span> <span class="post-releasedate">{post_releasedate}</span>
 			<a class="post-headline-link" href="{post_href}"><h3>{post_title}</h3></a>
 	
 			{post_teaser}

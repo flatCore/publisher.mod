@@ -91,3 +91,8 @@ a.post-headline-link:hover {
 .thumbnail:hover {
 	box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
 }
+
+.post-author,
+.post-releasedate {
+	font-size: smaller;
+}

@@ -4,7 +4,7 @@
 	<div class="price-tag">
 		{post_currency} {post_price_gross} <span class="product-unit">{post_product_unit}</span>
 	</div>
-	<p>{post_author} am {post_releasedate}</p>
+	<p><span class="post-author">{post_author}</span> <span class="post-releasedate">{post_releasedate}</span></p>
 	{post_teaser}
 	<p><img src="{post_img_src}" class="img-fluid"></p>
 	

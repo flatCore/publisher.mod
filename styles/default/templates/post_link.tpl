@@ -1,6 +1,6 @@
 <div class="post-type-{post_type}">
 	<h1>{post_title}</h1>
-	<p>{post_author} am {post_releasedate}</p>
+	<p><span class="post-author">{post_author}</span> <span class="post-releasedate">{post_releasedate}</span></p>
 	
 	
 	<div class="row">

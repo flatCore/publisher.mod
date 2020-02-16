@@ -113,7 +113,7 @@ foreach ($array_categories as $value) {
 
 
 
-$post_price_gross = $post_data['product_price_net']*($post_data['product_tax']+100)/100;;
+$post_price_gross = $post_data['product_price_net']*($post_data['product_tax']+100)/100;
 $post_price_gross = pub_print_currency($post_price_gross);
 
 
@@ -130,7 +130,6 @@ $sth->bindParam(':id', $post_data['id'], PDO::PARAM_INT);
 $sth->bindParam(':hits', $hits, PDO::PARAM_INT);
 $sth->execute();
 $dbh = NULL;
-
 
 
 $post_tpl = str_replace("{post_author}", $post_data['author'], $tpl);

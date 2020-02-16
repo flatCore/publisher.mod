@@ -251,8 +251,8 @@ for($i=0;$i<$cnt_get_posts;$i++) {
 	$post_price_gross = $get_posts[$i]['product_price_net']*($get_posts[$i]['product_tax']+100)/100;;
 	$post_price_gross = pub_print_currency($post_price_gross);
 	
-	$post_tpl = str_replace("{post_author}", $get_posts[$i]['author'], $tpl);
 	$post_tpl = str_replace("{post_title}", $get_posts[$i]['title'], $get_tpl);
+	$post_tpl = str_replace("{post_author}", $get_posts[$i]['author'], $post_tpl);
 	$post_tpl = str_replace("{post_teaser}", $get_posts[$i]['teaser'], $post_tpl);
 	$post_tpl = str_replace("{post_type}", $get_posts[$i]['type'], $post_tpl);
 	$post_tpl = str_replace("{post_img_src}", $first_post_image, $post_tpl);
