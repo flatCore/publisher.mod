@@ -13,7 +13,13 @@
 $post_data = pub_get_post_data($get_post);
 $post_images = explode("<->", $post_data['images']);
 $post_type = $post_data['type'];
+
 $post_releasedate = date('Y-m-d H:i',$post_data['releasedate']);
+$post_releasedate_year = date('Y',$post_data['releasedate']);
+$post_releasedate_month = date('m',$post_data['releasedate']);
+$post_releasedate_day = date('d',$post_data['releasedate']);
+$post_releasedate_time = date('H:i:s',$post_data['releasedate']);
+
 $post_lastedit = date('Y-m-d H:i',$post_data['lastedit']);
 $post_lastedit_from = $post_data['lastedit_from'];
 
@@ -133,7 +139,14 @@ $post_tpl = str_replace("{post_teaser}", $post_data['teaser'], $post_tpl);
 $post_tpl = str_replace("{post_text}", $post_data['text'], $post_tpl);
 $post_tpl = str_replace("{post_type}", $post_data['type'], $post_tpl);
 $post_tpl = str_replace("{post_img_src}", $first_post_image, $post_tpl);
+
+$post_tpl = str_replace("{post_releasedate_ts}", $post_data['releasedate'], $post_tpl); /* timestring */
 $post_tpl = str_replace("{post_releasedate}", $post_releasedate, $post_tpl);
+$post_tpl = str_replace("{post_releasedate_year}", $post_releasedate_year, $post_tpl);
+$post_tpl = str_replace("{post_releasedate_month}", $post_releasedate_month, $post_tpl);
+$post_tpl = str_replace("{post_releasedate_day}", $post_releasedate_day, $post_tpl);
+$post_tpl = str_replace("{post_releasedate_time}", $post_releasedate_time, $post_tpl);
+
 $post_tpl = str_replace("{post_lastedit}", $post_lastedit, $post_tpl);
 $post_tpl = str_replace("{post_lastedit_from}", $post_lastedit_from, $post_tpl);
 $post_tpl = str_replace("{event_start_day}", $event_start_day, $post_tpl);

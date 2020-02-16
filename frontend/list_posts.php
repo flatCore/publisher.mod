@@ -141,6 +141,11 @@ for($i=0;$i<$cnt_get_posts;$i++) {
 	$tpl = 'list_post_message.tpl';
 	
 	$post_releasedate = date('Y-m-d',$get_posts[$i]['releasedate']);
+	$post_releasedate_year = date('Y',$get_posts[$i]['releasedate']);
+	$post_releasedate_month = date('m',$get_posts[$i]['releasedate']);
+	$post_releasedate_day = date('d',$get_posts[$i]['releasedate']);
+	$post_releasedate_time = date('H:i:s',$get_posts[$i]['releasedate']);
+	
 	$post_id = $get_posts[$i]['id'];
 	$post_slug = $get_posts[$i]['slug'];
 	
@@ -246,12 +251,19 @@ for($i=0;$i<$cnt_get_posts;$i++) {
 	$post_price_gross = $get_posts[$i]['product_price_net']*($get_posts[$i]['product_tax']+100)/100;;
 	$post_price_gross = pub_print_currency($post_price_gross);
 	
+	$post_tpl = str_replace("{post_author}", $get_posts[$i]['author'], $tpl);
 	$post_tpl = str_replace("{post_title}", $get_posts[$i]['title'], $get_tpl);
 	$post_tpl = str_replace("{post_teaser}", $get_posts[$i]['teaser'], $post_tpl);
 	$post_tpl = str_replace("{post_type}", $get_posts[$i]['type'], $post_tpl);
 	$post_tpl = str_replace("{post_img_src}", $first_post_image, $post_tpl);
 	$post_tpl = str_replace("{video_id}", $video['v'], $post_tpl);
+	
+	$post_tpl = str_replace("{post_releasedate_ts}", $get_posts[$i]['releasedate'], $post_tpl); /* timestring */
 	$post_tpl = str_replace("{post_releasedate}", $post_releasedate, $post_tpl);
+	$post_tpl = str_replace("{post_releasedate_year}", $post_releasedate_year, $post_tpl);
+	$post_tpl = str_replace("{post_releasedate_month}", $post_releasedate_month, $post_tpl);
+	$post_tpl = str_replace("{post_releasedate_day}", $post_releasedate_day, $post_tpl);
+	$post_tpl = str_replace("{post_releasedate_time}", $post_releasedate_time, $post_tpl);
 	$post_tpl = str_replace("{event_start_day}", $event_start_day, $post_tpl);
 	$post_tpl = str_replace("{event_start_month}", $event_start_month, $post_tpl);
 	$post_tpl = str_replace("{event_start_month_text}", $event_start_month_text, $post_tpl);
@@ -259,6 +271,8 @@ for($i=0;$i<$cnt_get_posts;$i++) {
 	$post_tpl = str_replace("{event_end_day}", $event_end_day, $post_tpl);
 	$post_tpl = str_replace("{event_end_month}", $event_end_month, $post_tpl);
 	$post_tpl = str_replace("{event_end_year}", $event_end_year, $post_tpl);
+	
+	
 	$post_tpl = str_replace("{post_href}", $post_href, $post_tpl);
 	$post_tpl = str_replace("{post_cats}", $cat_links_string, $post_tpl);
 	$post_tpl = str_replace("{read_more_text}", $pub_lang['btn_read_more'], $post_tpl);
