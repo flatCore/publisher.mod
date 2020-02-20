@@ -120,7 +120,11 @@ function pub_get_entries($start=0,$limit=10,$filter) {
 		$sql_filter .= "AND releasedate <= '$time_string_now' ";
 		
 		if($filter['types'] == '-event') {
-			$sql_filter .= "AND enddate >= '$time_string_now' ";
+			/* we show events one day longer (from event end)
+			 * @todo we should put this as user input in the settings
+			 */
+			$time_hide_events = $time_string_now-86400;
+			$sql_filter .= "AND enddate >= '$time_hide_events' ";
 		}
 		
 	}
