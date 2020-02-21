@@ -92,10 +92,6 @@ if(isset($_POST['save_post']) OR isset($_POST['del_tmb']) OR isset($_POST['sort_
 	
 	$dbh = new PDO("sqlite:$mod_db");
 
-
-
-
-
 	/* build url for rss feed */
 	if($_POST['rss_url'] == '') {
 		
@@ -430,7 +426,10 @@ if($post_data['product_currency'] == '') {
 	$set_currency = $post_data['product_currency'];
 }
 
-$product_price_net = number_format($post_data['product_price_net'], 4, ',', '.');
+if(!empty($post_data['product_price_net'])) {
+	$product_price_net = number_format($post_data['product_price_net'], 4, ',', '.');
+}
+
 
 
 if($post_data['type'] == 'message') {
@@ -483,6 +482,8 @@ if($_GET['new'] == 'message') {
 	$post_data['type'] = 'gallery';
 }
 
+$post_data['text'] = htmlentities(stripslashes($post_data['text']), ENT_QUOTES, "UTF-8");
+$post_data['teaser'] = htmlentities(stripslashes($post_data['teaser']), ENT_QUOTES, "UTF-8");
 
 $form_tpl = str_replace('{post_title}', $post_data['title'], $form_tpl);
 $form_tpl = str_replace('{post_teaser}', $post_data['teaser'], $form_tpl);
