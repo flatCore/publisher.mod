@@ -32,7 +32,8 @@ if($_POST['saveprefs'] == 'save') {
 							url_separator_pages = :url_separator_pages,
 							url_pattern = :url_pattern,
 							products_default_tax = :products_default_tax,
-							products_default_currency = :products_default_currency
+							products_default_currency = :products_default_currency,
+							event_time_offset = :event_time_offset
 					WHERE status = 'active' ";
 	$sth = $dbh->prepare($sql);
 	$sth->bindParam(':entries_per_page', $_POST['entries_per_page'], PDO::PARAM_STR);
@@ -48,6 +49,7 @@ if($_POST['saveprefs'] == 'save') {
 	$sth->bindParam(':url_separator_pages', $_POST['url_separator_pages'], PDO::PARAM_STR);
 	$sth->bindParam(':products_default_tax', $_POST['products_default_tax'], PDO::PARAM_STR);
 	$sth->bindParam(':products_default_currency', $_POST['products_default_currency'], PDO::PARAM_STR);
+	$sth->bindParam(':event_time_offset', $_POST['event_time_offset'], PDO::PARAM_STR);
 	$cnt_changes = $sth->execute();
 	$dbh = null;
 	
@@ -227,8 +229,11 @@ echo '</div>';
 
 echo'</fieldset>';
 
+
+/* products */
+
 echo '<fieldset>';
-echo '<legend>'.$pub_lang['tab_product'].'</legend>';
+echo '<legend>'.$pub_lang['type_product'].'</legend>';
 
 echo '<div class="form-group">
 				<label>' . $pub_lang['products_default_tax'] . '</label>
@@ -240,6 +245,20 @@ echo '<div class="form-group">
 			</div>';
 echo'</fieldset>';
 
+
+
+/* events */
+
+echo '<fieldset>';
+echo '<legend>'.$pub_lang['type_event'].'</legend>';
+echo '<div class="form-group">
+				<label>' . $pub_lang['label_event_time_offset'] . '</label>
+				<input type="text" class="form-control" name="event_time_offset" value="'.$pub_preferences['event_time_offset'].'">
+				<small class="form-text text-muted">'.$pub_lang['event_time_offset_help_text'].'</small>
+			</div>';
+echo'</fieldset>';
+
+
 echo'<div class="well well-sm">';
 echo'<button type="submit" class="btn btn-success" name="saveprefs" value="save">'.$lang['save'].'</button>';
 echo '<input type="hidden" name="csrf_token" value="'.$_SESSION['token'].'">';
@@ -247,8 +266,6 @@ echo'</div>';
 echo'</form>';
 
 echo '<hr class="shadow">';
-
-
 
 /**
  * IMPORTING

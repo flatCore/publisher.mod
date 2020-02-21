@@ -22,6 +22,7 @@ function pub_get_entries($start=0,$limit=10,$filter) {
 	global $time_string_start;
 	global $time_string_end;
 	global $time_string_now;
+	global $pub_preferences;
 		
 	if(FC_SOURCE == 'frontend') {
 		$mod_db = $mod['database'];
@@ -120,10 +121,8 @@ function pub_get_entries($start=0,$limit=10,$filter) {
 		$sql_filter .= "AND releasedate <= '$time_string_now' ";
 		
 		if($filter['types'] == '-event') {
-			/* we show events one day longer (from event end)
-			 * @todo we should put this as user input in the settings
-			 */
-			$time_hide_events = $time_string_now-86400;
+			/* we show events longer (from event end) */
+			$time_hide_events = $time_string_now-$pub_preferences['event_time_offset'];
 			$sql_filter .= "AND enddate >= '$time_hide_events' ";
 		}
 		

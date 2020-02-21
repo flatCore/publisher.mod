@@ -25,7 +25,8 @@ $cols = array(
 	"entries_per_page" => 'INTEGER',
 	"products_default_tax" => 'INTEGER',
 	"products_default_currency" => 'VARCHAR',
-	"version" => 'VARCHAR'
+	"version" => 'VARCHAR',
+	"event_time_offset" => 'VARCHAR'
   );
   
   
