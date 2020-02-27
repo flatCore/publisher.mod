@@ -200,6 +200,9 @@ for($i=0;$i<$cnt_get_posts;$i++) {
 		arsort($thumbs_array);
 		$cnt_thumbs_array = count($thumbs_array);
 		if($cnt_thumbs_array > 0) {
+			
+			$first_post_image = "/" . str_replace('_tmb','_img',$thumbs_array[0]);
+			
 			$thumbnails_str = '';
 			$x = 0;
 			foreach($thumbs_array as $tmb) {
