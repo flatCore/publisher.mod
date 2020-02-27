@@ -54,6 +54,7 @@ $cols = array(
 	"product_supplier" => 'VARCHAR',
 	"product_tax" => 'INTEGER',
 	"product_price_net" => 'VARCHAR',
+	"product_price_label" => 'VARCHAR',
 	"product_currency" => 'VARCHAR',
 	"product_unit" => 'VARCHAR',
 	"product_width" => 'VARCHAR',

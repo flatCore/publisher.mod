@@ -393,8 +393,8 @@ echo '</div>';
 /* Filter Options */
 echo '<div class="card mt-2">';
 echo '<div class="card-header p-1 px-2">'.$icon['filter'].' '.$pub_lang['label_language'].'</div>';
-echo '<div class="card-body">';
-echo '<div class="text-center">'.$lang_btn_group.'</div>';
+echo '<div class="list-group list-group-flush">';
+echo $lang_btn_group;
 echo '</div>';
 echo '</div>';
 

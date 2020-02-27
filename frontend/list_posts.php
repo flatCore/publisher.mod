@@ -281,6 +281,7 @@ for($i=0;$i<$cnt_get_posts;$i++) {
 	$post_tpl = str_replace("{post_price_gross}", $post_price_gross, $post_tpl);
 	$post_tpl = str_replace("{post_currency}", $get_posts[$i]['product_currency'], $post_tpl);
 	$post_tpl = str_replace("{post_product_unit}", $get_posts[$i]['product_unit'], $post_tpl);
+	$post_tpl = str_replace("{post_product_price_label}", $get_posts[$i]['product_price_label'], $post_tpl);
 	
 	$post_tpl = str_replace("{post_thumbnails}", $thumbnails_str, $post_tpl);
 	

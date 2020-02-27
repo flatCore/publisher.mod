@@ -164,6 +164,7 @@ $post_tpl = str_replace("{back_link}", "/$fct_slug", $post_tpl);
 $post_tpl = str_replace("{post_price_gross}", $post_price_gross, $post_tpl);
 $post_tpl = str_replace("{post_currency}", $post_data['product_currency'], $post_tpl);
 $post_tpl = str_replace("{post_product_unit}", $post_data['product_unit'], $post_tpl);
+$post_tpl = str_replace("{post_product_price_label}", $post_data['product_price_label'], $post_tpl);
 
 $post_tpl = str_replace("{post_thumbnails}", $thumbnails_str, $post_tpl);
 

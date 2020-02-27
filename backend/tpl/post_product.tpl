@@ -66,13 +66,19 @@
 								<input class='form-control' name="post_product_currency" type="text" value="{post_product_currency}">
 							</div>
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-2">
+							<div class="form-group">
+								<label>{label_product_price_label}</label>
+								<input class='form-control' name="post_product_price_label" type="text" value="{post_product_price_label}">
+							</div>
+						</div>
+						<div class="col-md-3">
 							<div class="form-group">
 								<label>{label_product_price_net}</label>
 								<input class='form-control' id="price" name="post_product_price_net" type="text" value="{post_product_price_net}">
 							</div>
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-3">
 							<div class="form-group">
 								<label>{label_product_price_gross}</label>
 								<input class='form-control' id="price_total" name="post_product_price_gross" type="text" value="{post_product_price_gross}">

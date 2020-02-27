@@ -66,6 +66,18 @@ a.post-headline-link:hover {
     opacity: .5;
 }
 
+.price-tag-label:not(:empty) {
+	font-size: 11px;
+	opacity: .5;
+	background: rgba(0,0,0,0.1);
+	float: left;
+	padding: 3px;
+	margin-top: -5px;
+	margin-left: -5px;
+}
+
+
+
 .post-type-message,
 .post-type-event,
 .post-type-link,

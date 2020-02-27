@@ -69,6 +69,7 @@ $pub_lang['products_default_currency'] = 'Standard Währung';
 $pub_lang['label_product_currency'] = 'Währung';
 $pub_lang['label_product_price_net'] = 'Preis (netto)';
 $pub_lang['label_product_price_gross'] = 'Preis (brutto)';
+$pub_lang['label_product_price_label'] = 'Label';
 $pub_lang['label_product_unit'] = 'Einheit';
 
 $pub_lang['use_standard'] = 'Standard benutzen';

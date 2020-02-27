@@ -514,6 +514,7 @@ $form_tpl = str_replace('{post_product_currency}', $set_currency, $form_tpl);
 $form_tpl = str_replace('{post_product_price_net}', $product_price_net, $form_tpl);
 $form_tpl = str_replace('{post_product_price_gross}', $product_price_gross, $form_tpl);
 $form_tpl = str_replace('{post_product_unit}', $post_data['product_unit'], $form_tpl);
+$form_tpl = str_replace('{post_product_price_label}', $post_data['product_price_label'], $form_tpl);
 
 $form_tpl = str_replace('{select_priority}', $select_priority, $form_tpl);
 $form_tpl = str_replace('{checkbox_fixed}', $checkbox_fixed, $form_tpl);
