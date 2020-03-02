@@ -37,17 +37,6 @@ if(!defined('FC_INC_DIR')) {
 			timeZone: 'UTC',
     	format: 'YYYY-MM-DD HH:mm'
   	});
-  	
-		$('.filter-images').keyup(function() {
-		    var value = $(this).val();
-		    var exp = new RegExp('^' + value, 'i');
-				
-		    $('.thumbnail').each(function() {
-		        var isMatch = exp.test($('p:first', this).text());
-		        $(this).toggle(isMatch);
-		    });
-		});
-
 
 		if($("#price").val()) {
 			
