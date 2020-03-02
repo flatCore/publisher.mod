@@ -430,7 +430,9 @@ if(!empty($post_data['product_price_net'])) {
 	$product_price_net = number_format($post_data['product_price_net'], 4, ',', '.');
 }
 
-
+if($product_price_net == '') {
+	$product_price_net = '0,00';
+}
 
 if($post_data['type'] == 'message') {
 	$form_tpl = file_get_contents(__DIR__.'/tpl/post_message.tpl');
