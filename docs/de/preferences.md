@@ -1,0 +1,2 @@
+### Bilder filtern (Prefix)
+Wenn Du sehr viele Bilder hochgeladen hast und evtl. mehrere Module im Einsatz hast, kannst Du hier die Bilder *vorfiltern*. Gibst Du hier zum Beispiel __banner__ ein, werden nur Bilder angezeigt, deren Dateiname mit __banner__ beginnt.
