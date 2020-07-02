@@ -13,16 +13,21 @@
 					<span class="event-end-date">{event_end_day}.{event_end_month}.{event_end_year}</span>
 				</div>
 			</div>
-
 		</div>
 		<div class="col-md-7">
 			{post_teaser}
-			{post_text}		
+			{post_text}
 		</div>
 		<div class="col-md-3">
 			<p><img src="{post_img_src}" class="img-fluid"></p>
 		</div>
-	</div>
+		</div>
+		
+		{post_tpl_event_prices}
+		{post_event_price_note}
+		{post_tpl_event_hotline}
+
+	
 
 	<div class="post-footer">
 		<p class="text-right">{post_cats}</p>

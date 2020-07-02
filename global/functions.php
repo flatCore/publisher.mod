@@ -281,5 +281,24 @@ function pub_get_categories() {
 }
 
 
+/**
+ * print currency
+ * aka 9,99
+ *
+ */
+ 
+function pub_print_currency($number) {
+
+	$number = number_format($number, 2, ',', '.');
+	
+	$comma_pos = stripos($number, ",");
+	$article_price_big = substr("$number", 0, $comma_pos);
+	$article_price_small = substr("$number", -2);
+	
+	$article_price_string = "<span class='price-predecimal'>$article_price_big</span><span class='price-decimal'>,$article_price_small</span>";
+		
+	return $article_price_string;
+
+}
 
 ?>

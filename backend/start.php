@@ -314,6 +314,17 @@ if($cnt_filter_posts > 0) {
 			$show_events_date .= '</div>';
 		}
 		
+		$show_items_price = '';
+		if($get_posts[$i]['type'] == 'product') {
+			
+			$post_price_gross = $get_posts[$i]['product_price_net']*($get_posts[$i]['product_tax']+100)/100;
+			$post_price_gross = pub_print_currency($post_price_gross);
+
+			$show_items_price = '<div class="float-right small well well-sm">';
+			$show_items_price .= $post_price_gross;
+			$show_items_price .= '</div>';		
+		}
+		
 		
 		echo '<tr class="'.$draft_class.'">';
 		echo '<td>'.$get_posts[$i]['id'].'</td>';
@@ -322,7 +333,7 @@ if($cnt_filter_posts > 0) {
 		echo '<td nowrap><small>'.$published_date.'<br>'.$release_date.'<br>'.$lastedit_date.'</small></td>';
 		echo '<td><span class="'.$type_class.'">'.$get_posts[$i]['type'].'</span></td>';
 		echo '<td>'.$show_thumb.'</td>';
-		echo '<td>'.$show_events_date.'<h5 class="mb-0">'.$get_posts[$i]['title'].'</h5><small>'.$trimmed_teaser.'</small></td>';
+		echo '<td>'.$show_events_date.$show_items_price.'<h5 class="mb-0">'.$get_posts[$i]['title'].'</h5><small>'.$trimmed_teaser.'</small></td>';
 		echo '<td style="min-width: 150px;">';
 		echo '<nav class="nav justify-content-end">';
 		echo '<a class="btn btn-fc btn-sm text-success mx-1" href="acp.php?tn=moduls&sub=publisher.mod&a=edit&post_id='.$get_posts[$i]['id'].'">'.$lang['edit'].'</a>';
@@ -342,6 +353,23 @@ echo '</div>';
 echo '<div class="col-md-3">';
 
 
+
+
+
+echo '<div class="dropdown mt-3">';
+echo '<button class="btn btn-block btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'.$pub_lang['label_new_post'].'</button>';
+echo '<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">';
+echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=message" class="dropdown-item"><span class="color-message">'.$icon['plus'].'</span> '.$pub_lang['type_message'].'</a>';
+echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=event" class="dropdown-item"><span class="color-event">'.$icon['plus'].'</span> '.$pub_lang['type_event'].'</a>';
+echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=image" class="dropdown-item"><span class="color-image">'.$icon['plus'].'</span> '.$pub_lang['type_image'].'</a>';
+echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=gallery" class="dropdown-item"><span class="color-gallery">'.$icon['plus'].'</span> '.$pub_lang['type_gallery'].'</a>';
+echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=video" class="dropdown-item"><span class="color-video">'.$icon['plus'].'</span> '.$pub_lang['type_video'].'</a>';
+echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=link" class="dropdown-item"><span class="color-link">'.$icon['plus'].'</span> '.$pub_lang['type_link'].'</a>';
+echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=product" class="dropdown-item"><span class="color-product">'.$icon['plus'].'</span> '.$pub_lang['type_product'].'</a>';
+echo '</div>';
+echo '</div>';
+
+echo '<hr>';
 
 echo '<div class="row">';
 echo '<div class="col-md-2">';
@@ -376,74 +404,98 @@ if($nextPage < ($cnt_filter_posts-$pb_posts_limit)+$pb_posts_limit) {
 echo '</div>';
 echo '</div>';
 
-echo '<hr>';
-
-echo '<div class="card mt-2">';
-echo '<div class="list-group list-group-flush">';
-echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=message" class="list-group-item list-group-item-ghost p-1 px-2"><span class="color-message">'.$icon['plus'].'</span> '.$pub_lang['type_message'].'</a>';
-echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=event" class="list-group-item list-group-item-ghost p-1 px-2"><span class="color-event">'.$icon['plus'].'</span> '.$pub_lang['type_event'].'</a>';
-echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=image" class="list-group-item list-group-item-ghost p-1 px-2"><span class="color-image">'.$icon['plus'].'</span> '.$pub_lang['type_image'].'</a>';
-echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=gallery" class="list-group-item list-group-item-ghost p-1 px-2"><span class="color-gallery">'.$icon['plus'].'</span> '.$pub_lang['type_gallery'].'</a>';
-echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=video" class="list-group-item list-group-item-ghost p-1 px-2"><span class="color-video">'.$icon['plus'].'</span> '.$pub_lang['type_video'].'</a>';
-echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=link" class="list-group-item list-group-item-ghost p-1 px-2"><span class="color-link">'.$icon['plus'].'</span> '.$pub_lang['type_link'].'</a>';
-echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=edit&new=product" class="list-group-item list-group-item-ghost p-1 px-2"><span class="color-product">'.$icon['plus'].'</span> '.$pub_lang['type_product'].'</a>';
-echo '</div>';
-echo '</div>';
+echo '<fieldset class="mt-4">';
+echo '<legend>'.$icon['filter'].' Filter</legend>';
 
 /* Filter Options */
-echo '<div class="card mt-2">';
-echo '<div class="card-header p-1 px-2">'.$icon['filter'].' '.$pub_lang['label_language'].'</div>';
+echo '<div class="card mt-1">';
+echo '<div class="card-header p-1 px-2">'.$pub_lang['label_language'].'</div>';
 echo '<div class="list-group list-group-flush">';
 echo $lang_btn_group;
 echo '</div>';
 echo '</div>';
 
 echo '<div class="card mt-2">';
-echo '<div class="card-header p-1 px-2">'.$icon['filter'].' '.$pub_lang['label_post_type'].'</div>';
+echo '<div class="card-header p-1 px-2">'.$pub_lang['label_post_type'].'</div>';
 
 /* type filter */
 echo '<div class="list-group list-group-flush">';
 if(strpos("$_SESSION[checked_type_string]", "message") !== false) {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=message" class="list-group-item list-group-item-ghost p-1 px-2 active">'.$pub_lang['type_message'].'</a>';
+	$class = 'list-group-item list-group-item-ghost p-1 px-2 active';
+	$icon_toggle = $icon['toggle_on'];
 } else {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=message" class="list-group-item list-group-item-ghost p-1 px-2">'.$pub_lang['type_message'].'</a>';
+	$class = 'list-group-item list-group-item-ghost p-1 px-2';
+	$icon_toggle = $icon['toggle_off'];
 }
-if(strpos("$_SESSION[checked_type_string]", "event") !== false) {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=event" class="list-group-item list-group-item-ghost p-1 px-2 active">'.$pub_lang['type_event'].'</a>';
-} else {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=event" class="list-group-item list-group-item-ghost p-1 px-2">'.$pub_lang['type_event'].'</a>';
-}
-if(strpos("$_SESSION[checked_type_string]", "image") !== false) {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=image" class="list-group-item list-group-item-ghost p-1 px-2 active">'.$pub_lang['type_image'].'</a>';
-} else {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=image" class="list-group-item list-group-item-ghost p-1 px-2">'.$pub_lang['type_image'].'</a>';
-}
-if(strpos("$_SESSION[checked_type_string]", "gallery") !== false) {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=gallery" class="list-group-item list-group-item-ghost p-1 px-2 active">'.$pub_lang['type_gallery'].'</a>';
-} else {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=gallery" class="list-group-item list-group-item-ghost p-1 px-2">'.$pub_lang['type_gallery'].'</a>';
-}
-if(strpos("$_SESSION[checked_type_string]", "video") !== false) {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=video" class="list-group-item list-group-item-ghost p-1 px-2 active">'.$pub_lang['type_video'].'</a>';
-} else {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=video" class="list-group-item list-group-item-ghost p-1 px-2">'.$pub_lang['type_video'].'</a>';
-}
-if(strpos("$_SESSION[checked_type_string]", "link") !== false) {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=link" class="list-group-item list-group-item-ghost p-1 px-2 active">'.$pub_lang['type_link'].'</a>';
-} else {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=link" class="list-group-item list-group-item-ghost p-1 px-2">'.$pub_lang['type_link'].'</a>';
-}
-if(strpos("$_SESSION[checked_type_string]", "product") !== false) {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=product" class="list-group-item list-group-item-ghost p-1 px-2 active">'.$pub_lang['type_product'].'</a>';
-} else {
-	echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=product" class="list-group-item list-group-item-ghost p-1 px-2">'.$pub_lang['type_product'].'</a>';
-}
-echo '</div>';
 
+echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=message" class="'.$class.'">'.$icon_toggle.' '.$pub_lang['type_message'].'</a>';
+
+if(strpos("$_SESSION[checked_type_string]", "event") !== false) {
+	$class = 'list-group-item list-group-item-ghost p-1 px-2 active';
+	$icon_toggle = $icon['toggle_on'];
+} else {
+	$class = 'list-group-item list-group-item-ghost p-1 px-2';
+	$icon_toggle = $icon['toggle_off'];
+}
+
+echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=event" class="'.$class.'">'.$icon_toggle.' '.$pub_lang['type_event'].'</a>';
+
+if(strpos("$_SESSION[checked_type_string]", "image") !== false) {
+	$class = 'list-group-item list-group-item-ghost p-1 px-2 active';
+	$icon_toggle = $icon['toggle_on'];
+} else {
+	$class = 'list-group-item list-group-item-ghost p-1 px-2';
+	$icon_toggle = $icon['toggle_off'];
+}
+
+echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=image" class="'.$class.'">'.$icon_toggle.' '.$pub_lang['type_image'].'</a>';
+
+if(strpos("$_SESSION[checked_type_string]", "gallery") !== false) {
+	$class = 'list-group-item list-group-item-ghost p-1 px-2 active';
+	$icon_toggle = $icon['toggle_on'];
+} else {
+	$class = 'list-group-item list-group-item-ghost p-1 px-2';
+	$icon_toggle = $icon['toggle_off'];
+}
+
+echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=gallery" class="'.$class.'">'.$icon_toggle.' '.$pub_lang['type_gallery'].'</a>';
+
+if(strpos("$_SESSION[checked_type_string]", "video") !== false) {
+	$class = 'list-group-item list-group-item-ghost p-1 px-2 active';
+	$icon_toggle = $icon['toggle_on'];
+} else {
+	$class = 'list-group-item list-group-item-ghost p-1 px-2';
+	$icon_toggle = $icon['toggle_off'];
+}
+
+echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=video" class="'.$class.'">'.$icon_toggle.' '.$pub_lang['type_video'].'</a>';
+
+if(strpos("$_SESSION[checked_type_string]", "link") !== false) {
+	$class = 'list-group-item list-group-item-ghost p-1 px-2 active';
+	$icon_toggle = $icon['toggle_on'];
+} else {
+	$class = 'list-group-item list-group-item-ghost p-1 px-2';
+	$icon_toggle = $icon['toggle_off'];
+}
+
+echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=link" class="'.$class.'">'.$icon_toggle.' '.$pub_lang['type_link'].'</a>';
+
+
+if(strpos("$_SESSION[checked_type_string]", "product") !== false) {
+	$class = 'list-group-item list-group-item-ghost p-1 px-2 active';
+	$icon_toggle = $icon['toggle_on'];
+} else {
+	$class = 'list-group-item list-group-item-ghost p-1 px-2';
+	$icon_toggle = $icon['toggle_off'];
+}
+
+echo '<a href="acp.php?tn=moduls&sub=publisher.mod&a=start&type=product" class="'.$class.'">'.$icon_toggle.' '.$pub_lang['type_product'].'</a>';
+
+echo '</div>';
 echo '</div>';
 
 echo '<div class="card mt-2">';
-echo '<div class="card-header p-1 px-2">'.$icon['filter'].' '.$pub_lang['label_status'].'</div>';
+echo '<div class="card-header p-1 px-2">'.$pub_lang['label_status'].'</div>';
 
 /* status filter */
 echo '<div class="btn-group d-flex">';
@@ -463,11 +515,13 @@ echo '</div>';
 echo '</div>';
 
 echo '<div class="card mt-2">';
-echo '<div class="card-header p-1 px-2">'.$icon['filter'].' '.$pub_lang['label_categories'].'</div>';
+echo '<div class="card-header p-1 px-2">'.$pub_lang['label_categories'].'</div>';
 
 echo $cat_btn_group;
 
 echo '</div>';
+
+echo '</fieldset>';
 
 echo '</div>';
 echo '</div>';

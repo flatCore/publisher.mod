@@ -44,22 +44,6 @@ function get_post_categories() {
 }
 
 
-
-function pub_print_currency($number) {
-
-	$number = number_format($number, 2, ',', '.');
-	
-	$comma_pos = stripos($number, ",");
-	$article_price_big = substr("$number", 0, $comma_pos);
-	$article_price_small = substr("$number", -2);
-	
-	$article_price_string = "<span class='price-predecimal'>$article_price_big</span><span class='price-decimal'>,$article_price_small</span>";
-		
-	return $article_price_string;
-
-}
-
-
 function pub_list_gallery_thumbs($fp,$nbr='all') {
 	
 	$fp = $fp.'*_tmb.jpg';

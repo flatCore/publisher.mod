@@ -139,7 +139,7 @@ if(isset($_POST['save_post']) OR isset($_POST['del_tmb']) OR isset($_POST['sort_
 		$sth = $dbh->prepare($sql);
 		
 	}
-	
+		
 	foreach($cols as $k => $v) {
   	$par = ":$k";
   	$var = 'post_'.$k;
@@ -148,7 +148,7 @@ if(isset($_POST['save_post']) OR isset($_POST['del_tmb']) OR isset($_POST['sort_
 	  	continue;
   	}
   	
-  	$sth->bindParam($par, $_POST[$var], PDO::PARAM_STR);
+  	$sth->bindParam($par, $_POST[$var], PDO::PARAM_STR);  	
   }
 	
 
@@ -504,9 +504,31 @@ $form_tpl = str_replace('{submit_button}', $submit_btn, $form_tpl);
 $form_tpl = str_replace('{token}', $_SESSION['token'], $form_tpl);
 $form_tpl = str_replace('{post_id}', $post_id, $form_tpl);
 $form_tpl = str_replace('{post_releasedate}', $post_releasedate, $form_tpl);
+$form_tpl = str_replace('{post_date}', $post_data['date'], $form_tpl);
+
 $form_tpl = str_replace('{event_start}', $post_startdate, $form_tpl);
 $form_tpl = str_replace('{event_end}', $post_enddate, $form_tpl);
-$form_tpl = str_replace('{post_date}', $post_data['date'], $form_tpl);
+$form_tpl = str_replace('{post_event_street}', $post_data['event_street'], $form_tpl);
+$form_tpl = str_replace('{post_event_street_nbr}', $post_data['event_street_nbr'], $form_tpl);
+$form_tpl = str_replace('{post_event_zip}', $post_data['event_zip'], $form_tpl);
+$form_tpl = str_replace('{post_event_city}', $post_data['event_city'], $form_tpl);
+$form_tpl = str_replace('{post_event_hotline}', $post_data['event_hotline'], $form_tpl);
+$form_tpl = str_replace('{post_event_price_note}', $post_data['event_price_note'], $form_tpl);
+
+$form_tpl = str_replace('{post_event_price_cat1_description}', $post_data['event_price_cat1_description'], $form_tpl);
+$form_tpl = str_replace('{post_event_price_cat2_description}', $post_data['event_price_cat2_description'], $form_tpl);
+$form_tpl = str_replace('{post_event_price_cat3_description}', $post_data['event_price_cat3_description'], $form_tpl);
+$form_tpl = str_replace('{post_event_price_cat4_description}', $post_data['event_price_cat4_description'], $form_tpl);
+$form_tpl = str_replace('{post_event_price_cat5_description}', $post_data['event_price_cat5_description'], $form_tpl);
+$form_tpl = str_replace('{post_event_price_cat6_description}', $post_data['event_price_cat6_description'], $form_tpl);
+
+$form_tpl = str_replace('{post_event_price_cat1}', $post_data['event_price_cat1'], $form_tpl);
+$form_tpl = str_replace('{post_event_price_cat2}', $post_data['event_price_cat2'], $form_tpl);
+$form_tpl = str_replace('{post_event_price_cat3}', $post_data['event_price_cat3'], $form_tpl);
+$form_tpl = str_replace('{post_event_price_cat4}', $post_data['event_price_cat4'], $form_tpl);
+$form_tpl = str_replace('{post_event_price_cat5}', $post_data['event_price_cat5'], $form_tpl);
+$form_tpl = str_replace('{post_event_price_cat6}', $post_data['event_price_cat6'], $form_tpl);
+
 
 $form_tpl = str_replace('{post_product_number}', $post_data['product_number'], $form_tpl);
 $form_tpl = str_replace('{post_product_manufacturer}', $post_data['product_manufacturer'], $form_tpl);
@@ -536,6 +558,8 @@ foreach($pub_lang as $k => $v) {
 $form_tpl = str_replace('{tab_intro}', $pub_lang['tab_intro'], $form_tpl);
 $form_tpl = str_replace('{tab_content}', $pub_lang['tab_content'], $form_tpl);
 $form_tpl = str_replace('{tab_preferences}', $pub_lang['tab_preferences'], $form_tpl);
+$form_tpl = str_replace('{tab_info}', $pub_lang['tab_info'], $form_tpl);
+$form_tpl = str_replace('{tab_prices}', $pub_lang['tab_prices'], $form_tpl);
 
 $form_tpl = str_replace('{formaction}', 'acp.php?tn=moduls&sub=publisher.mod&a=edit', $form_tpl);
 

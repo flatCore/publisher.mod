@@ -84,6 +84,8 @@ if($post_type == 'image') {
 	$tpl = file_get_contents("modules/publisher.mod/$pub_tpl_dir/templates/post_link.tpl");
 } else if($post_type == 'event') {
 	$tpl = file_get_contents("modules/publisher.mod/$pub_tpl_dir/templates/post_event.tpl");
+	$tpl_hotline = file_get_contents("modules/publisher.mod/$pub_tpl_dir/templates/post_event_hotline.tpl");
+	$tpl_prices = file_get_contents("modules/publisher.mod/$pub_tpl_dir/templates/post_event_prices.tpl");
 } else if ($post_type == 'product') {
 	$tpl = file_get_contents("modules/publisher.mod/$pub_tpl_dir/templates/post_product.tpl");
 } else {
@@ -92,6 +94,37 @@ if($post_type == 'image') {
 		$tpl = file_get_contents("modules/publisher.mod/$pub_tpl_dir/templates/post_message_wo_image.tpl");
 	}
 }
+
+
+/* event prices */
+
+if($post_data['event_price_cat1'] != '') {
+	$price_line_1 = str_replace('{price_decription}', $post_data['event_price_cat1_description'], $tpl_prices);
+	$price_line_1 = str_replace('{price}', $post_data['event_price_cat1'], $price_line_1);
+}
+if($post_data['event_price_cat2'] != '') {
+	$price_line_2 = str_replace('{price_decription}', $post_data['event_price_cat2_description'], $tpl_prices);
+	$price_line_2 = str_replace('{price}', $post_data['event_price_cat2'], $price_line_2);
+}
+if($post_data['event_price_cat3'] != '') {
+	$price_line_3 = str_replace('{price_decription}', $post_data['event_price_cat3_description'], $tpl_prices);
+	$price_line_3 = str_replace('{price}', $post_data['event_price_cat3'], $price_line_3);
+}
+if($post_data['event_price_cat4'] != '') {
+	$price_line_4 = str_replace('{price_decription}', $post_data['event_price_cat4_description'], $tpl_prices);
+	$price_line_4 = str_replace('{price}', $post_data['event_price_cat4'], $price_line_4);
+}
+if($post_data['event_price_cat5'] != '') {
+	$price_line_5 = str_replace('{price_decription}', $post_data['event_price_cat5_description'], $tpl_prices);
+	$price_line_5 = str_replace('{price}', $post_data['event_price_cat5'], $price_line_5);
+}
+if($post_data['event_price_cat6'] != '') {
+	$price_line_6 = str_replace('{price_decription}', $post_data['event_price_cat6_description'], $tpl_prices);
+	$price_line_6 = str_replace('{price}', $post_data['event_price_cat6'], $price_line_6);
+}
+
+$price_list .= $price_line_1.$price_line_2.$price_line_3.$price_line_4.$price_line_5.$price_line_6;
+
 
 
 /* post categories */
@@ -112,10 +145,8 @@ foreach ($array_categories as $value) {
 }
 
 
-
 $post_price_gross = $post_data['product_price_net']*($post_data['product_tax']+100)/100;
 $post_price_gross = pub_print_currency($post_price_gross);
-
 
 
 /* increase hits */
@@ -130,7 +161,6 @@ $sth->bindParam(':id', $post_data['id'], PDO::PARAM_INT);
 $sth->bindParam(':hits', $hits, PDO::PARAM_INT);
 $sth->execute();
 $dbh = NULL;
-
 
 $post_tpl = str_replace("{post_author}", $post_data['author'], $tpl);
 $post_tpl = str_replace("{post_title}", $post_data['title'], $post_tpl);
@@ -155,6 +185,11 @@ $post_tpl = str_replace("{event_start_year}", $event_start_year, $post_tpl);
 $post_tpl = str_replace("{event_end_day}", $event_end_day, $post_tpl);
 $post_tpl = str_replace("{event_end_month}", $event_end_month, $post_tpl);
 $post_tpl = str_replace("{event_end_year}", $event_end_year, $post_tpl);
+$post_tpl = str_replace("{post_tpl_event_hotline}", $tpl_hotline, $post_tpl);
+$post_tpl = str_replace("{post_event_hotline}", $post_data['event_hotline'], $post_tpl);
+$post_tpl = str_replace("{post_event_price_note}", $post_data['event_price_note'], $post_tpl);
+$post_tpl = str_replace("{post_tpl_event_prices}", $price_list, $post_tpl);
+
 $post_tpl = str_replace("{video_id}", $video['v'], $post_tpl);
 $post_tpl = str_replace("{post_external_link}", $post_data['link'], $post_tpl);
 $post_tpl = str_replace("{post_cats}", $cat_links_string, $post_tpl);

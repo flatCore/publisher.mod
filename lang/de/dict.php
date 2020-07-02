@@ -59,6 +59,24 @@ $pub_lang['label_status'] = 'Status';
 $pub_lang['label_url'] = 'URL';
 $pub_lang['label_url_video'] = 'Video URL (YouTube)';
 $pub_lang['label_upload'] = 'Upload';
+$pub_lang['label_new_post'] = 'Neuen Eintrag erstellen';
+
+$pub_lang['label_event_location'] = 'Location';
+$pub_lang['label_street'] = 'Straße';
+$pub_lang['label_street_nbr'] = 'Nr';
+$pub_lang['label_zip'] = 'PLZ';
+$pub_lang['label_city'] = 'Ort';
+$pub_lang['label_event_hotline'] = 'Hotline';
+$pub_lang['label_price_note'] = 'Hinweise zu den Preisen';
+
+$pub_lang['label_event_prices'] = 'Preise';
+$pub_lang['label_price'] = 'Preis';
+$pub_lang['label_price_desc1'] = 'Preis Kategorie 1';
+$pub_lang['label_price_desc2'] = 'Preis Kategorie 2';
+$pub_lang['label_price_desc3'] = 'Preis Kategorie 3';
+$pub_lang['label_price_desc4'] = 'Preis Kategorie 4';
+$pub_lang['label_price_desc5'] = 'Preis Kategorie 5';
+$pub_lang['label_price_desc6'] = 'Preis Kategorie 6';
 
 $pub_lang['label_product_number'] = 'Produktnummer';
 $pub_lang['label_product_manufacturer'] = 'Hersteller';
@@ -109,6 +127,8 @@ $pub_lang['tab_content'] = 'Inhalt';
 $pub_lang['tab_meta'] = 'Meta Data';
 $pub_lang['tab_preferences'] = 'Einstellungen';
 $pub_lang['tab_product'] = 'Produkt';
+$pub_lang['tab_info'] = 'Informationen';
+$pub_lang['tab_prices'] = 'Preise';
 
 $pub_lang['upload_help_text'] = 'Du musst die Galerie speichern, bevor Du Bilder hinzufügen kannst.';
 
