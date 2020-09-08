@@ -32,6 +32,8 @@ if($_POST['saveprefs'] == 'save') {
 							url_separator_pages = :url_separator_pages,
 							url_pattern = :url_pattern,
 							products_default_tax = :products_default_tax,
+							products_tax_alt1 = :products_tax_alt1,
+							products_tax_alt2 = :products_tax_alt2,
 							products_default_currency = :products_default_currency,
 							event_time_offset = :event_time_offset
 					WHERE status = 'active' ";
@@ -47,7 +49,9 @@ if($_POST['saveprefs'] == 'save') {
 	$sth->bindParam(':url_pattern', $_POST['url_pattern'], PDO::PARAM_STR);
 	$sth->bindParam(':url_separator_categories', $_POST['url_separator_categories'], PDO::PARAM_STR);
 	$sth->bindParam(':url_separator_pages', $_POST['url_separator_pages'], PDO::PARAM_STR);
-	$sth->bindParam(':products_default_tax', $_POST['products_default_tax'], PDO::PARAM_STR);
+	$sth->bindParam(':products_default_tax', $_POST['products_default_tax'], PDO::PARAM_INT);
+	$sth->bindParam(':products_tax_alt1', $_POST['products_tax_alt1'], PDO::PARAM_INT);
+	$sth->bindParam(':products_tax_alt2', $_POST['products_tax_alt2'], PDO::PARAM_INT);
 	$sth->bindParam(':products_default_currency', $_POST['products_default_currency'], PDO::PARAM_STR);
 	$sth->bindParam(':event_time_offset', $_POST['event_time_offset'], PDO::PARAM_STR);
 	$cnt_changes = $sth->execute();
@@ -235,10 +239,28 @@ echo'</fieldset>';
 echo '<fieldset>';
 echo '<legend>'.$pub_lang['type_product'].'</legend>';
 
+echo '<div class="row">';
+echo '<div class="col">';
 echo '<div class="form-group">
 				<label>' . $pub_lang['products_default_tax'] . '</label>
 				<input type="text" class="form-control" name="products_default_tax" value="'.$pub_preferences['products_default_tax'].'">
 			</div>';
+echo '</div>';
+echo '<div class="col">';
+echo '<div class="form-group">
+				<label>' . $pub_lang['label_product_tax_alt1'] . '</label>
+				<input type="text" class="form-control" name="products_tax_alt1" value="'.$pub_preferences['products_tax_alt1'].'">
+			</div>';
+echo '</div>';
+echo '<div class="col">';
+echo '<div class="form-group">
+				<label>' . $pub_lang['label_product_tax_alt2'] . '</label>
+				<input type="text" class="form-control" name="products_tax_alt2" value="'.$pub_preferences['products_tax_alt2'].'">
+			</div>';
+echo '</div>';
+echo '</div>';
+			
+
 echo '<div class="form-group">
 				<label>' . $pub_lang['products_default_currency'] . '</label>
 				<input type="text" class="form-control" name="products_default_currency" value="'.$pub_preferences['products_default_currency'].'">

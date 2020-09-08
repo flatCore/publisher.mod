@@ -286,6 +286,29 @@ $choose_images .= '</optgroup>'."\r\n";
 $choose_images .= '</select>'."\r\n";
 
 
+/* select tax */
+
+$get_tax = 0;
+
+if($post_data['product_tax'] == '1') {
+	$sel_tax_1 = 'selected';
+	$get_tax = $pub_preferences['products_default_tax'];
+} else if($post_data['product_tax'] == '2') {
+	$sel_tax_2 = 'selected';
+	$get_tax = $pub_preferences['products_tax_alt1'];
+} else if($post_data['product_tax'] == '3') {
+	$sel_tax_3 = 'selected';
+	$get_tax = $pub_preferences['products_tax_alt2'];
+}
+
+$select_tax = "<select name='post_product_tax' class='form-control custom-select' id='tax'>";
+$select_tax .= '<option value="1" '.$sel_tax_1.'>'.$pub_preferences['products_default_tax'].'</option>';
+$select_tax .= '<option value="2" '.$sel_tax_2.'>'.$pub_preferences['products_tax_alt1'].'</option>';
+$select_tax .= '<option value="3" '.$sel_tax_3.'>'.$pub_preferences['products_tax_alt2'].'</option>';
+$select_tax .= '</select>';
+
+
+
 /* categories */
 for($i=0;$i<count($cats);$i++) {
 	$category = $cats[$i]['name'];
@@ -413,6 +436,46 @@ for($i=0;$i<count($arr_lang);$i++) {
 
 
 
+/* add text snippet to prices */
+
+$snippet_select_pricelist = '<select class="form-control custom-select" name="post_product_textlib_price">';
+$snippet_select_pricelist .= '<option value="no_snippet">'.$pub_lang['product_no_snippet'].'</option>';
+$dbh = new PDO("sqlite:".CONTENT_DB);
+$sql = "SELECT * FROM fc_textlib WHERE textlib_name LIKE 'publisher_price%' ORDER BY textlib_name ASC";
+foreach ($dbh->query($sql) as $row) {
+	$snippets_price_list[] = $row;
+}
+$dbh = null;
+foreach($snippets_price_list as $snippet) {
+	$selected = "";
+	if($snippet['textlib_name'] == $post_data['product_textlib_price']) {
+		$selected = 'selected';
+	}
+	$snippet_select_pricelist .= '<option '.$selected.' value='.$snippet['textlib_name'].'>'.$snippet['textlib_name']. ' - ' .$snippet['textlib_title'].'</option>';
+}
+$snippet_select_pricelist .= '</select>';
+
+
+/* add text snippet to text */
+
+$snippet_select_text = '<select class="form-control custom-select" name="post_product_textlib_content">';
+$snippet_select_text .= '<option value="no_snippet">'.$pub_lang['product_no_snippet'].'</option>';
+$dbh = new PDO("sqlite:".CONTENT_DB);
+$sql = "SELECT * FROM fc_textlib WHERE textlib_name LIKE 'publisher_text%' ORDER BY textlib_name ASC";
+foreach ($dbh->query($sql) as $row) {
+	$snippets_text_list[] = $row;
+}
+$dbh = null;
+foreach($snippets_text_list as $snippet) {
+	$selected = "";
+	if($snippet['textlib_name'] == $post_data['product_textlib_content']) {
+		$selected = 'selected';
+	}
+	$snippet_select_text .= '<option '.$selected.' value='.$snippet['textlib_name'].'>'.$snippet['textlib_name']. ' - ' .$snippet['textlib_title'].'</option>';
+}
+$snippet_select_text .= '</select>';
+
+
 
 if($post_data['product_tax'] == '') {
 	$set_tax = $pub_preferences['products_default_tax'];
@@ -533,12 +596,48 @@ $form_tpl = str_replace('{post_event_price_cat6}', $post_data['event_price_cat6'
 $form_tpl = str_replace('{post_product_number}', $post_data['product_number'], $form_tpl);
 $form_tpl = str_replace('{post_product_manufacturer}', $post_data['product_manufacturer'], $form_tpl);
 $form_tpl = str_replace('{post_product_supplier}', $post_data['product_supplier'], $form_tpl);
-$form_tpl = str_replace('{post_product_tax}', $set_tax, $form_tpl);
 $form_tpl = str_replace('{post_product_currency}', $set_currency, $form_tpl);
 $form_tpl = str_replace('{post_product_price_net}', $product_price_net, $form_tpl);
 $form_tpl = str_replace('{post_product_price_gross}', $product_price_gross, $form_tpl);
 $form_tpl = str_replace('{post_product_unit}', $post_data['product_unit'], $form_tpl);
 $form_tpl = str_replace('{post_product_price_label}', $post_data['product_price_label'], $form_tpl);
+$form_tpl = str_replace('{select_tax}', $select_tax, $form_tpl);
+$form_tpl = str_replace('{post_product_amount}', $post_data['product_amount'], $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_net_1_amount}', $post_data['product_quantity_price_net_1_amount'], $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_net_1}', $post_data['product_quantity_price_net_1'], $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_gross_1}', $post_product_quantity_price_gross_1, $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_net_2_amount}', $post_data['product_quantity_price_net_2_amount'], $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_net_2}', $post_data['product_quantity_price_net_2'], $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_gross_2}', $post_product_quantity_price_gross_2, $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_net_3_amount}', $post_data['product_quantity_price_net_3_amount'], $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_net_3}', $post_data['product_quantity_price_net_3'], $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_gross_3}', $post_product_quantity_price_gross_3, $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_net_4_amount}', $post_data['product_quantity_price_net_4_amount'], $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_net_4}', $post_data['product_quantity_price_net_4'], $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_gross_4}', $post_product_quantity_price_gross_4, $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_net_5_amount}', $post_data['product_quantity_price_net_5_amount'], $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_net_5}', $post_data['product_quantity_price_net_5'], $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_gross_5}', $post_product_quantity_price_gross_5, $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_net_6_amount}', $post_data['product_quantity_price_net_6_amount'], $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_net_6}', $post_data['product_quantity_price_net_6'], $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_gross_6}', $post_product_quantity_price_gross_6, $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_net_7_amount}', $post_data['product_quantity_price_net_7_amount'], $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_net_7}', $post_data['product_quantity_price_net_7'], $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_gross_7}', $post_product_quantity_price_gross_7, $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_net_8_amount}', $post_data['product_quantity_price_net_8_amount'], $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_net_8}', $post_data['product_quantity_price_net_8'], $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_gross_8}', $post_product_quantity_price_gross_8, $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_net_9_amount}', $post_data['product_quantity_price_net_9_amount'], $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_net_9}', $post_data['product_quantity_price_net_9'], $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_gross_9}', $post_product_quantity_price_gross_9, $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_net_10_amount}', $post_data['product_quantity_price_net_10_amount'], $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_net_10}', $post_data['product_quantity_price_net_10'], $form_tpl);
+$form_tpl = str_replace('{post_product_quantity_price_gross_10}', $post_product_quantity_price_gross_10, $form_tpl);
+
+$form_tpl = str_replace('{snippet_select_pricelist}', $snippet_select_pricelist, $form_tpl);
+$form_tpl = str_replace('{label_product_snippet_price}', $pub_lang['label_product_snippet_price'], $form_tpl);
+$form_tpl = str_replace('{snippet_select_text}', $snippet_select_text, $form_tpl);
+$form_tpl = str_replace('{label_product_snippet_text}', $pub_lang['label_product_snippet_text'], $form_tpl);
 
 $form_tpl = str_replace('{select_priority}', $select_priority, $form_tpl);
 $form_tpl = str_replace('{checkbox_fixed}', $checkbox_fixed, $form_tpl);

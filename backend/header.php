@@ -41,7 +41,10 @@ if(!defined('FC_INC_DIR')) {
 		if($("#price").val()) {
 			
 			get_netto = $("#price").val();
-			get_tax = parseInt($('#tax').val());
+			
+			var e = document.getElementById("tax");
+			var get_tax = e.options[e.selectedIndex].text;
+			get_tax = parseInt(get_tax);
 			get_netto_calc = get_netto.replace(/\./g, '');
 			get_netto_calc = get_netto_calc.replace(",",".");
 			current_brutto = get_netto_calc*(get_tax+100)/100;
@@ -50,7 +53,7 @@ if(!defined('FC_INC_DIR')) {
 	
 			$('#price').keyup(function(){
 				get_netto = $('#price').val();
-				get_tax = parseInt($('#tax').val());
+				//get_tax = parseInt($('#tax').val());
 				get_netto_calc = get_netto.replace(/\./g, '');
 				get_netto_calc = get_netto_calc.replace(",",".");
 				current_brutto = get_netto_calc*(get_tax+100)/100;
@@ -60,7 +63,7 @@ if(!defined('FC_INC_DIR')) {
 			
 			$('#price_total').keyup(function(){
 				get_brutto = $('#price_total').val();
-				get_tax = parseInt($('#tax').val());
+				//get_tax = parseInt($('#tax').val());
 				get_brutto_calc = get_brutto.replace(/\./g, '');
 				get_brutto_calc = get_brutto_calc.replace(",",".");
 				current_netto = get_brutto_calc*100/(get_tax+100);
@@ -68,9 +71,13 @@ if(!defined('FC_INC_DIR')) {
 				$('#price').val(current_netto);
 			});
 			
-			$('#tax').keyup(function(){
+			$('#tax').bind("change keyup", function(){
+				
+				var e = document.getElementById("tax");
+				var get_tax = e.options[e.selectedIndex].text;
+				get_tax = parseInt(get_tax);
+				
 				get_netto = $('#price').val();
-				get_tax = parseInt($('#tax').val());
 				get_netto_calc = get_netto.replace(",",".");
 
 				current_brutto = get_netto_calc*(get_tax+100)/100;

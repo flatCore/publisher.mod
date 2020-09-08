@@ -19,7 +19,7 @@ if(is_file($mod_root.'publisher.mod/lang/'.$languagePack.'/dict.php')) {
 
 $mod = array(
 	"name" => "publisher",
-	"version" => "0.1.2",
+	"version" => "0.1.6",
 	"author" => "KONSTAND · Das Designbüro",
 	"description" => "Publish News, Events, Products, Images, Galleries, Videos or Links",
 	"database" => "content/SQLite/publisher.sqlite3"

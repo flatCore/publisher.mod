@@ -30,6 +30,12 @@
 				</div>
 				<div class="tab-pane fade" id="content">
 					<textarea class='mceEditor' name='post_text'>{post_text}</textarea>
+					
+					<fieldset>
+						<legend>{label_product_snippet_text}</legend>
+						{snippet_select_text}
+					</fieldset>
+					
 				</div>
 
 				<div class="tab-pane fade" id="product">
@@ -54,22 +60,40 @@
 					</div>
 					
 					<div class="row">
-						<div class="col-md-2">
-							<div class="form-group">
-								<label>{label_product_tax}</label>
-								<input class='form-control' id="tax" name="post_product_tax" type="text" value="{post_product_tax}">
-							</div>
-						</div>
+						
 						<div class="col-md-2">
 							<div class="form-group">
 								<label>{label_product_currency}</label>
 								<input class='form-control' name="post_product_currency" type="text" value="{post_product_currency}">
-							</div>
+							</div>						
 						</div>
 						<div class="col-md-2">
 							<div class="form-group">
 								<label>{label_product_price_label}</label>
 								<input class='form-control' name="post_product_price_label" type="text" value="{post_product_price_label}">
+							</div>
+						</div>
+						
+					</div>
+					
+					<div class="row">
+						
+						<div class="col-md-2">
+							<div class="form-group">
+								<label>{label_product_amount}</label>
+								<input class='form-control' name="post_product_amount" type="text" value="{post_product_amount}">
+							</div>
+						</div>
+						<div class="col-md-2">
+							<div class="form-group">
+								<label>{label_product_unit}</label>
+								<input class='form-control' name="post_product_unit" type="text" value="{post_product_unit}">
+							</div>	
+						</div>
+						<div class="col-md-2">
+							<div class="form-group">
+								<label>{label_product_tax}</label>
+								{select_tax}
 							</div>
 						</div>
 						<div class="col-md-3">
@@ -85,11 +109,13 @@
 							</div>
 						</div>
 					</div>
+					
+					<fieldset>
+						<legend>{label_product_snippet_price}</legend>
+						{snippet_select_pricelist}
+					</fieldset>
 										
-					<div class="form-group">
-						<label>{label_product_unit}</label>
-						<input class='form-control' name="post_product_unit" type="text" value="{post_product_unit}">
-					</div>	
+
 					
 				</div> <!-- #product -->
 				

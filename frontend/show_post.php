@@ -199,7 +199,25 @@ $post_tpl = str_replace("{back_link}", "/$fct_slug", $post_tpl);
 $post_tpl = str_replace("{post_price_gross}", $post_price_gross, $post_tpl);
 $post_tpl = str_replace("{post_currency}", $post_data['product_currency'], $post_tpl);
 $post_tpl = str_replace("{post_product_unit}", $post_data['product_unit'], $post_tpl);
+$post_tpl = str_replace("{post_product_amount}", $post_data['product_amount'], $post_tpl);
 $post_tpl = str_replace("{post_product_price_label}", $post_data['product_price_label'], $post_tpl);
+
+if($post_data['product_textlib_content'] != 'no_snippet') {
+	$textlib_content = get_textlib($post_data['product_textlib_content'],$languagePack);
+	$post_tpl = str_replace("{post_snippet_text}", $textlib_content, $post_tpl);
+} else {
+	$post_tpl = str_replace("{post_snippet_text}", '', $post_tpl);
+}
+
+if($post_data['product_textlib_price'] != 'no_snippet') {
+	$textlib_price = get_textlib($post_data['product_textlib_price'],$languagePack);
+	$post_tpl = str_replace("{post_snippet_price}", $textlib_price, $post_tpl);
+} else {
+	$post_tpl = str_replace("{post_snippet_price}", '', $post_tpl);
+}
+
+
+
 
 $post_tpl = str_replace("{post_thumbnails}", $thumbnails_str, $post_tpl);
 
