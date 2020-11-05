@@ -1,5 +1,4 @@
 <?php
-
 /**
  * publisher.mod main include file
  *
@@ -11,9 +10,9 @@
  *		/category/example/$pub_preferences[url_separator_pages]/2/ -> go to category, page 2
  */
  
-include 'info.inc.php';
-include 'global/functions.php';
-include 'frontend/functions.php';
+include 'modules/publisher.mod/info.inc.php';
+include 'modules/publisher.mod/global/functions.php';
+include 'modules/publisher.mod/frontend/functions.php';
 
 
 /* defaults */

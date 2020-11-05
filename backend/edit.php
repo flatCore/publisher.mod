@@ -385,18 +385,18 @@ $checkbox_fixed .= '</div>';
 
 
 /* status | draft or published */
-if($post_data['status'] == "draft") {
-	$sel_status1 = "selected";
+if($post_data['status'] == "1") {
+	$sel_status_published = "selected";
 } else {
-	$sel_status2 = "selected";
+	$sel_status_draft = "selected";
 }
 $select_status = "<select name='post_status' class='form-control custom-select'>";
 if($_SESSION['drm_can_publish'] == "true") {
-	$select_status .= '<option value="draft" '.$sel_status1.'>'.$pub_lang['status_draft'].'</option>';
-	$select_status .= '<option value="published" '.$sel_status2.'>'.$pub_lang['status_public'].'</option>';
+	$select_status .= '<option value="2" '.$sel_status_draft.'>'.$pub_lang['status_draft'].'</option>';
+	$select_status .= '<option value="1" '.$sel_status_published.'>'.$pub_lang['status_public'].'</option>';
 } else {
 	/* user can not publish */
-	$select_status .= '<option value="draft" selected>'.$pub_lang['status_draft'].'</option>';
+	$select_status .= '<option value="2" selected>'.$lang['status_draft'].'</option>';
 }
 $select_status .= '</select>';
 
